@@ -1,0 +1,166 @@
+###########  macOS Silliness  ###########
+.DS_Store
+
+
+###########  Windows Silliness  ###########
+Thumbs.db
+
+
+
+###########  Python Silliness  ###########
+__pycache__*
+.python*
+
+
+
+###########  Tokens, Certificates, Payloads, and Sessions  ###########
+.cert_store*
+config_store*
+cred_store*
+.token_store*
+.session_store*
+
+
+
+###########  Environmental Variables and Secrets  ###########
+.env*
+*.envrc*
+*environmental_variables*
+*simplified_credentials*
+*.git-credentials*
+
+
+
+###########  Python Virtual Environments  ###########
+venv/
+.venv
+venv/
+.venv/
+
+
+###########  Github Necessariness  ###########
+.github/
+.github*
+
+
+
+###########  pyCharm Silliness  ###########
+.idea/
+.idea*
+
+
+
+###########  VSCode Silliness  ###########
+.vscode/
+.vscode*
+
+
+
+###########  VSCode Necessariness  ###########
+.cspell*
+
+
+
+###########  Common File Extensions  ###########
+*.bak
+*.csv
+*.j2
+*.jpg
+*.json
+*.html
+*.log
+*.md
+*.png
+*.sh
+*.sh.j2
+*.tmp
+*.txt
+*.xml
+*.xlsm
+*.xlsx
+*.yaml
+
+
+
+###########  Common Directories  ###########
+*archive*/
+*copy_of*/
+*debug*/
+*develop*/
+*hold*/
+example*/
+*ignore*/
+*interpreter*/
+*json*/
+*logs*/
+*response*/
+*scratch*/
+*stats*/
+*test*/
+*temp*/
+*unsorted*/
+*simplified/
+*simplified*
+*xml*/
+
+
+
+###########  File Copies  ###########
+copy_of_*
+
+
+
+###########  Self and Ignore Ignore  ###########
+.gitignore
+.ignore*
+
+
+
+###########  Common Development Filename Patterns  ###########
+*archive*
+*backup*
+*check*
+*develop*
+*debug*
+*fixes*
+*example*
+*ignore*
+*recursive*
+*scratch*
+*terminal*
+*test*
+*todo*
+
+
+
+###########  Repo Specific Directories  ###########
+*apk*/
+*png*/
+*public_keys*/
+
+
+
+###########  Repo Specific Key-File Related  ###########
+*.cert
+*.der
+*.key
+*.pem
+
+
+
+###########  Repo Specific Binary-File Related  ###########
+*.apk
+*.apkm
+*.bin
+*.dmg
+*.exe
+*.ipa
+
+
+
+###########  Repo Specific Sonos-File Related  ###########
+*.upd
+*.upm
+*update*
+
+
