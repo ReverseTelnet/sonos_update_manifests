@@ -1,0 +1,49 @@
+name: Check For New Manifest Files
+
+
+on:
+    schedule: 
+        - cron: '30 00 * * *'
+    workflow_dispatch:
+
+
+
+permissions:
+  contents: write
+
+
+concurrency:
+  group: update-repo
+  cancel-in-progress: true
+
+
+
+jobs:
+  update-manifests:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: checkout repo content
+        uses: actions/checkout@v7
+        with:
+          ref: automated_manifest_updates
+
+      - name: setup python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.14'
+
+      - name: install python dependencies
+        run: |
+          if [ -f ./requirements.txt ]; then python -m pip install -r ./requirements.txt; fi
+
+      - name: run python script
+        run: |
+          python3 check_for_new_manifest_files.py headless
+
+      - name: push changes
+        run: |
+          git push
+
+
