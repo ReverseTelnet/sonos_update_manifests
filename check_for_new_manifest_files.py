@@ -705,7 +705,6 @@ def process_response_workflow(response, is_seed=False):
         content_location = None
     response_log_text = f'\n\n# {response.url}\n\n{response.text}\n\n'
     all_responses.append(response_log_text)
-    # all_responses.append(response.text)
     signature = parse_response_text_for_signature(response.text)
     if signature: # It's New, So Save It and Parse It.
         LOG.info('New Signature Found!')
