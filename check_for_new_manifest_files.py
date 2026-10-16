@@ -842,7 +842,8 @@ if headless_mode:
         LOG.info(f'\n\n{item}\n\n')
         time.sleep(.3)
     if new_manifest_files:
-        git_commit_headless_workflow(pwd_absolute_path, new_manifest_files)
+        new_manifest_filenames = [item[0] for item in new_manifest_files]
+        git_commit_headless_workflow(pwd_absolute_path, new_manifest_filenames)
     elif not new_manifest_files:
         LOG.info(f'No New Manifest Files')
 
