@@ -813,7 +813,7 @@ while master_queue:
                 else:
                     manifest_filename, response_text = process_response_workflow(response)
                 if manifest_filename:
-                    new_manifest_files.add(manifest_filename)
+                    new_manifest_files.add((manifest_filename, response_text))
             elif not response:
                 print('No Response from URL\n\n')
                 known_404_url_set.add(url)
