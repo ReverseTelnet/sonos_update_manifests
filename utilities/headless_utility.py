@@ -231,6 +231,7 @@ def compile_git_commit_amend_command(git_timestamp):
 
 
 def git_commit_headless_workflow(pwd_absolute_path, new_manifest_files):
+    git_set_username_output, git_set_email_output = setup_local_git_username_and_email()
     for filename in new_manifest_files:
         input_command = f'git add {filename} -f'
         git_add_result = run_subprocess_p_open(input_command)
