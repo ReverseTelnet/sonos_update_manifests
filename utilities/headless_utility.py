@@ -58,13 +58,34 @@ LOG = logging.getLogger('utilities.logging_utility')
 
 ##############################################################################
 #                                                                            #
-#                 Run Git Status Porcelain Command Function                  #
+#                Setup Local Git Username and Email Function                 #
 #                                                                            #
 ##############################################################################
 
 
 
 from utilities.subprocess_utility import run_subprocess_p_open
+
+
+
+#######################  Git Local | Username and Email  #######################
+
+
+
+def setup_local_git_username_and_email():
+    input_command =  'git config --local user.name "Reverse Telnet"'
+    git_set_username_output = run_subprocess_p_open(input_command)
+    input_command =  'git config --local user.email "56200159+ReverseTelnet@users.noreply.github.com"'
+    git_set_email_output = run_subprocess_p_open(input_command)
+    return git_set_username_output, git_set_email_output
+
+
+
+##############################################################################
+#                                                                            #
+#                 Run Git Status Porcelain Command Function                  #
+#                                                                            #
+##############################################################################
 
 
 
