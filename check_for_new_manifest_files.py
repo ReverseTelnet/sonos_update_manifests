@@ -736,6 +736,7 @@ import sys
 import time
 from pathlib import Path
 from rich import print as rich_print
+from utilities.common_utilities import ascii_waves
 from utilities.known_404_urls import known_404_url_list
 from utilities.headless_utility import git_commit_headless_workflow
 
@@ -844,6 +845,12 @@ if headless_mode:
     if new_manifest_files:
         new_manifest_filenames = [item[0] for item in new_manifest_files]
         git_commit_headless_workflow(pwd_absolute_path, new_manifest_filenames)
+        LOG.info(f'{ascii_waves} NEW MANIFEST DATA {ascii_waves}')
+        for element in new_manifest_files:
+            filename, manifest_text = element
+            LOG.info(f'\n\n{filename}\n\n')
+            LOG.info(f'\n\n{manifest_text}\n\n')
+            time.sleep(.3)
     elif not new_manifest_files:
         LOG.info(f'No New Manifest Files')
 
