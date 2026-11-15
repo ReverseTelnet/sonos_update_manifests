@@ -446,6 +446,47 @@ def parse_image_links_workflow(soup):
 
 ##############################################################################
 #                                                                            #
+#          Parse Manifest File Name for Manifest Hyperlink Function          #
+#                                                                            #
+##############################################################################
+
+
+
+'''
+Development Notes:
+
+    The Base URL and the Image Links (Hyperlinks) in the Manifest
+    Files may be different than the actual URL used to retrieve the
+    that Manifest File. This most commonly occurs with the 'Year Numbered'
+    files such as:
+
+    >>> http://update-firmware.sonos.com/firmware/2026-Sonos-22-DlQxSDS4vj-GA-2/update.upm
+
+    The following function derives the Manifest URL Hyperlink from the Filename itself.
+    When this URL is processed by later functions, the `Prod` and `Dev` keyword swaps will
+    occur, just like when parsing the Image Links.
+'''
+
+
+
+#######################  Manifest Filename --> In | Manifest Hyperlink --> Out  #######################
+
+
+
+def parse_manifest_file_name_for_manifest_hyperlink(file):
+    release = file.name.split('__')[0].strip()
+    base_path = 'http://update-firmware.sonos.com/firmware/Prod'
+    update_upm = 'update.upm'
+    if release:
+        manifest_hyperlink = {f'{base_path}/{release}/{update_upm}'}
+    else:
+        manifest_hyperlink = set()
+    return manifest_hyperlink
+
+
+
+##############################################################################
+#                                                                            #
 #                Parse Manifest Text for Hyperlinks Function                 #
 #                                                                            #
 ##############################################################################
