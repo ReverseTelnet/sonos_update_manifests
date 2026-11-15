@@ -657,7 +657,7 @@ def parse_saved_manifests_for_hyperlinks_workflow(manifests_sorted):
         text_data = open_text_file(file)
         parse_manifest_text_for_signature(text_data, file.name)
         manifest_hyperlink = parse_manifest_file_name_for_manifest_hyperlink(file)
-        hyperlinks, _ = parse_manifest_text_for_hyperlinks(text_data)
+        links, _ = parse_manifest_text_for_hyperlinks(text_data)
         for item in hyperlinks:
             hyperlinks_set.add(item)
             hyperlinks_set.add(swap_prod_and_dev_words(item))
