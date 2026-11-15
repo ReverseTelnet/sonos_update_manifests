@@ -102,8 +102,11 @@ from os import path
 
 
 def derive_current_script_name():
-    base_filename = path.basename(__file__)
-    current_script, extension = path.splitext(base_filename)
+    try:
+        base_filename = path.basename(__file__)
+        current_script, extension = path.splitext(base_filename)
+    except NameError:
+        current_script = 'check_for_new_manifest_files'
     return current_script
 
 
