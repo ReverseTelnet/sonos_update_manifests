@@ -801,7 +801,7 @@ while master_queue:
     rich_print(f'Queue Length: {queue_length}')
     rich_print(f'On: {url}')
     if url in known_404_url_set:
-        print('Skipping UR: - Known Invalid URL\n\n')
+        print('Skipping URL: - Known Invalid URL\n\n')
     else:
         if url not in already_visited:
             print('\n\n')
