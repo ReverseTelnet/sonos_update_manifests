@@ -78,6 +78,10 @@ def select_operating_system():
 
 
 
+from natsort import natsorted
+
+
+
 #######################  Download Version Value  #######################
 
 
@@ -104,6 +108,9 @@ def select_version_and_get_download_url():
 
 
 import webbrowser
+from utilities.desktop_versions_utility import get_manifest_file_list
+from utilities.desktop_versions_utility import parse_manifest_files_for_links
+from utilities.desktop_versions_utility import construct_os_installer_dictionaries
 
 
 
