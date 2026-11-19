@@ -1,23 +1,23 @@
-# ------------------------------------------------------------------------------------------------------------------------------------
-#
-#   Known Sonos Manifest URLs
-#
-#       This is a list of known Sonos Manifest URLs as of October 2026.
-#
-#       This Utility has two purposes:
-#
-#           1. To ensure links are populate in search engine results
-#              when searching for Sonos Manifest Files, Sonos Release versions, and Sonos Software and Firmware versions.
-#
-#              The hope is to make things easier for the next engineer or user who needs these files.
-#
-#           2. To provide a quick reference to Manifest File URLs.
-#
-#              A Python List is arguably easier to read then XML.
-#
-#              Note: URLs are sorted by Release Version.
-#
-# ------------------------------------------------------------------------------------------------------------------------------------
+# ╭────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+# │                                                                                                                                    │
+# │     Known Sonos Manifest URLs                                                                                                      │
+# │                                                                                                                                    │
+# │         This is a list of known Sonos Manifest URLs as of the latest headless run of the `check_for_new_manifest_file` script.     │
+# │                                                                                                                                    │
+# │         This Utility has two purposes:                                                                                             │
+# │                                                                                                                                    │
+# │             1. To ensure links are populate in search engine results                                                               │
+# │                when searching for Sonos Manifest Files, Sonos Release versions, and Sonos Software and Firmware versions.          │
+# │                                                                                                                                    │
+# │                The hope is to make things easier for the next engineer or user who needs these files.                              │
+# │                                                                                                                                    │
+# │             2. To provide a quick reference to Manifest File URLs.                                                                 │
+# │                                                                                                                                    │
+# │                A Python List is arguably easier to read then XML.                                                                  │
+# │                                                                                                                                    │
+# │                Note: URLs are sorted by Release Version.                                                                           │
+# │                                                                                                                                    │
+# ╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 
 
 
