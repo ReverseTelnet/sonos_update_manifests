@@ -1,12 +1,12 @@
-# ------------------------------------------------------------------------------------------------------------------------------------
-#
-#   Known 404 Not Found URLs
-#
-#       This is a list of known 404 Not Found URLs.
-#
-#       This list is used by the `check_for_new_manifest_files` script to skip over known-bad URLs.
-#
-# ------------------------------------------------------------------------------------------------------------------------------------
+# ╭────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+# │                                                                                                                                    │
+# │     Known 404 Not Found URLs                                                                                                       │
+# │                                                                                                                                    │
+# │         This is a list of known 404 Not Found URLs as of the latest headless run of the `check_for_new_manifest_file` script.      │
+# │                                                                                                                                    │
+# │         This list is used by the `check_for_new_manifest_files` script to skip over known-bad URLs.                                │
+# │                                                                                                                                    │
+# ╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 
 
 
