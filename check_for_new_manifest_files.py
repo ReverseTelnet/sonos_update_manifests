@@ -789,6 +789,7 @@ import time
 from pathlib import Path
 from rich import print as rich_print
 from utilities.common_utilities import ascii_waves
+from utilities.common_utilities import is_today_sunday
 from utilities.known_404_urls import known_404_url_list
 from utilities.headless_utility import git_commit_headless_workflow
 
@@ -837,7 +838,7 @@ master_queue = SEED_URLS + parsed_hyperlinks
 all_responses = []
 already_visited = set()
 new_manifest_files = set()
-known_404_url_set = set(known_404_url_list)
+known_404_url_set = set() if is_today_sunday() else set(known_404_url_list)
 good_urls = set()
 url_to_headers = set()
 
