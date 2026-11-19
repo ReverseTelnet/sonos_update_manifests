@@ -1,42 +1,46 @@
-# ------------------------------------------------------------------------------------------------------------------------------------
-#
-#   Extract Manifest Validator Public Keys
-#
-#       This code is used to extract three Public Keys from a Sonos Android APK file.
-#       These public keys are then saved to the `manifest_public_keys` directory.
-#       They can be used to verify any past or present Manifest File Signature.
-#
-#       The Public Keys are present in the both the Windows and macOS Desktop
-#       Applications and the Android and Apple Mobile Applications.  In macOS,
-#       they can be extracted without installing the Application, while on Windows,
-#       the executable must be installed.  For compatibility across Operating
-#       Systems, this script uses the Sonos-provided Android APK as the source.
-#
-#       The APK Files have an average size of around ~300 MB.
-#
-#       The script will give you an option to save the APK files or not.
-#       The entire file has to be downloaded and unzipped in memory in order
-#       to extract the Public Key File.  However, the downloaded contents do
-#       not necessarily have to be saved for the purposes of Manifest File Validation.
-#
-#       If you select the option to save the APK file, it is written to the
-#       directory `apk_files`.
-#
-#       The script will loop through known-specific Sonos-provided APK File URLs.
-#       If the URL has been taken down or if the Public Keys cannot be extracted
-#       from a given APK file, the script will loop to the next URL. If none of
-#       the known-specific URLs yield the Public Keys, the script will attempt
-#       the generic APK URL: `https://www.sonos.com/redir/controller_software_android2`
-#
-# ------------------------------------------------------------------------------------------------------------------------------------
+# ╭────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+# │                                                                                                                                    │
+# │     Extract Manifest Validator Public Keys                                                                                         │
+# │                                                                                                                                    │
+# │         This code is used to extract three Public Keys from a Sonos Android APK file.                                              │
+# │         These public keys are then saved to the `manifest_public_keys` directory.                                                  │
+# │         They can be used to verify any past or present Manifest File Signature.                                                    │
+# │                                                                                                                                    │
+# │         The Public Keys are present in the both the Windows and macOS Desktop                                                      │
+# │         Applications and the Android and Apple Mobile Applications.  In macOS,                                                     │
+# │         they can be extracted without installing the Application, while on Windows,                                                │
+# │         the executable must be installed.  For compatibility across Operating                                                      │
+# │         Systems, this script uses the Sonos-provided Android APK as the source.                                                    │
+# │                                                                                                                                    │
+# │                                                                                                                                    │
+# │         The APK Files have an average size of around ~300 MB.                                                                      │
+# │                                                                                                                                    │
+# │                                                                                                                                    │
+# │         The script will give you an option to save the APK files or not.                                                           │
+# │         The entire file has to be downloaded and unzipped in memory in order                                                       │
+# │         to extract the Public Key File.  However, the downloaded contents do                                                       │
+# │         not necessarily have to be saved for the purposes of Manifest File Validation.                                             │
+# │                                                                                                                                    │
+# │                                                                                                                                    │
+# │         If you select the option to save the APK file, it is written to the                                                        │
+# │         directory `apk_files`.                                                                                                     │
+# │                                                                                                                                    │
+# │                                                                                                                                    │
+# │         The script will loop through known-specific Sonos-provided APK File URLs.                                                  │
+# │         If the URL has been taken down or if the Public Keys cannot be extracted                                                   │
+# │         from a given APK file, the script will loop to the next URL. If none of                                                    │
+# │         the known-specific URLs yield the Public Keys, the script will attempt                                                     │
+# │         the generic APK URL: `https://www.sonos.com/redir/controller_software_android2`                                            │
+# │                                                                                                                                    │
+# ╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 
 
 
-##############################################################################
-#                                                                            #
-#          Clear Screen, Bump to Top, And Drop Two Lines Functions           #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │          Clear Screen, Bump to Top, And Drop Two Lines Functions         │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -45,7 +49,7 @@ from utilities.common_utilities import get_clear_function_by_platform
 
 
 
-#######################  Bump Console Output to the Top  #######################
+#  ────────────────────  Bump Console Output to the Top  ────────────────────
 
 
 
@@ -55,11 +59,11 @@ PRINT_NEWLINES(2)
 
 
 
-##############################################################################
-#                                                                            #
-#                        Validator-Related Constants                         #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                        Validator-Related Constants                       │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -67,7 +71,7 @@ from utilities.common_utilities import get_pwd_absolute_path
 
 
 
-#######################  HERE - (Absolutely) Here  #######################
+#  ───────────────────────  HERE - (Absolutely) Here  ───────────────────────
 
 
 
@@ -75,7 +79,7 @@ pwd_absolute_path = get_pwd_absolute_path()
 
 
 
-#######################  Output Directories  #######################
+#  ──────────────────────────  Output Directories  ──────────────────────────
 
 
 
@@ -84,7 +88,7 @@ public_keys_directory = f'{pwd_absolute_path}/manifest_public_keys'
 
 
 
-#######################  Hex Patterns  #######################
+#  ─────────────────────────────  Hex Patterns  ─────────────────────────────
 
 
 
@@ -94,7 +98,7 @@ hex_pattern_0203 = '30 82 01 22 30 0d 06 09 2a 86 48 86 f7 0d 01 01 01 05 00 03 
 
 
 
-#######################  Byte Patterns  #######################
+#  ─────────────────────────────  Byte Patterns  ─────────────────────────────
 
 
 
@@ -104,7 +108,7 @@ pattern_0203 = bytes.fromhex(hex_pattern_0203)
 
 
 
-#######################  Byte Sizes  #######################
+#  ──────────────────────────────  Byte Sizes  ──────────────────────────────
 
 
 
@@ -114,7 +118,7 @@ byte_size_0203 = 294
 
 
 
-#######################  MD5 Reference Hashes  #######################
+#  ─────────────────────────  MD5 Reference Hashes  ─────────────────────────
 
 
 
@@ -124,7 +128,7 @@ reference_md5_hash_0096 = '13a0e91343acceb103898a3a3dde1ca5'
 
 
 
-#######################  Output Filenames  #######################
+#  ───────────────────────────  Output Filenames  ───────────────────────────
 
 
 
@@ -134,7 +138,7 @@ filename_0203 = f'{public_keys_directory}/ZZ0203.der'
 
 
 
-#######################  Known APK File Sizes and Links  #######################
+#  ────────────────────  Known APK File Sizes and Links  ────────────────────
 
 
 
@@ -154,11 +158,11 @@ apk_sizes_and_links = {
 
 
 
-##############################################################################
-#                                                                            #
-#                Select If APK Files Should Be Saved Function                #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                Select If APK Files Should Be Saved Function              │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -172,7 +176,7 @@ from utilities.common_utilities import yes_no_to_boolean
 
 
 
-#######################  Save Downloaded APK Files?  #######################
+#  ──────────────────────  Save Downloaded APK Files?  ──────────────────────
 
 
 
@@ -188,11 +192,11 @@ def select_if_apk_should_be_saved():
 
 
 
-##############################################################################
-#                                                                            #
-#                      Download Sonos APK File Function                      #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                      Download Sonos APK File Function                    │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -201,7 +205,7 @@ from rich import print as rich_print
 
 
 
-#######################  Basic Requests Handler  #######################
+#  ────────────────────────  Basic Requests Handler  ────────────────────────
 
 
 
@@ -235,11 +239,11 @@ def download_sonos_apk_file(url):
 
 
 
-##############################################################################
-#                                                                            #
-#                      APK File Save Workflow Function                       #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                      APK File Save Workflow Function                     │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -247,7 +251,7 @@ from utilities.write_and_save_utility import save_bytes_to_file
 
 
 
-#######################  Response --> In | File Saved!  #######################
+#  ─────────────────────  Response --> In | File Saved!  ─────────────────────
 
 
 
@@ -260,11 +264,11 @@ def apk_file_save_workflow(response):
 
 
 
-##############################################################################
-#                                                                            #
-#                 Extract Crypto File From APK File Function                 #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                 Extract Crypto File From APK File Function               │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -275,7 +279,7 @@ from natsort import natsorted
 
 
 
-#######################  Response --> In | Crypto File --> Out  #######################
+#  ─────────────────  Response --> In | Crypto File --> Out  ─────────────────
 
 
 
@@ -292,15 +296,15 @@ def extract_crypto_file(response):
 
 
 
-##############################################################################
-#                                                                            #
-#           Extract Public Key Contents From Crypto File Function            #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │           Extract Public Key Contents From Crypto File Function          │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
-#######################  Crypto File --> In | Public Keys Out --> Out  #######################
+#  ─────────────  Crypto File --> In | Public Keys Out --> Out  ─────────────
 
 
 
@@ -323,11 +327,11 @@ def extract_public_key_contents(crypto_file):
 
 
 
-##############################################################################
-#                                                                            #
-#                  Check Extracted DER File Hashes Function                  #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                  Check Extracted DER File Hashes Function                │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -335,7 +339,7 @@ from utilities.common_utilities import get_md5_hash_of_bytes
 
 
 
-#######################  Extracted DER --> In | Validity --> Out  #######################
+#  ────────────────  Extracted DER --> In | Validity --> Out  ────────────────
 
 
 
@@ -350,11 +354,11 @@ def check_extracted_der_hashes(extracted_0096, extracted_0202, extracted_0203):
 
 
 
-##############################################################################
-#                                                                            #
-#                     Save Public Keys Workflow Function                     #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                     Save Public Keys Workflow Function                   │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -378,7 +382,7 @@ Development Notes:
 
 
 
-#######################  Validity Check --> In | If Validity Save Key/Update Global  #######################
+#  ──────  Validity Check --> In | If Validity Save Key/Update Global  ──────
 
 
 
@@ -401,11 +405,11 @@ def save_public_key_workflow(valid_0096, valid_0202, valid_0203, saved_0096, sav
 
 
 
-##############################################################################
-#                                                                            #
-#                          Putting It All Together                           #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                          Putting It All Together                         │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -414,7 +418,7 @@ from alive_progress import alive_bar
 
 
 
-#######################  User Input Required  #######################
+#  ──────────────────────────  User Input Required  ──────────────────────────
 
 
 
@@ -422,7 +426,7 @@ save_apk_files = select_if_apk_should_be_saved()
 
 
 
-#######################  Variables Instantiation  #######################
+#  ────────────────────────  Variables Instantiation  ────────────────────────
 
 
 
@@ -432,7 +436,7 @@ saved_0203 = False
 
 
 
-#######################  Output Directory Creation  #######################
+#  ───────────────────────  Output Directory Creation  ───────────────────────
 
 
 
@@ -442,7 +446,7 @@ if save_apk_files:
 
 
 
-#######################  Alive Progress And URL List Setup  #######################
+#  ───────────────────  Alive Progress And URL List Setup  ───────────────────
 
 
 
@@ -451,7 +455,7 @@ sonos_apk_urls = list(apk_sizes_and_links.values())
 
 
 
-#######################  if __name__ == '__main__'  #######################
+#  ───────────────────────  if __name__ == '__main__'  ───────────────────────
 
 
 
