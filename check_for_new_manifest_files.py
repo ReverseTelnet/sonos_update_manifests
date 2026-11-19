@@ -566,8 +566,7 @@ request_headers = {
     'Cache-Control': 'no-cache',
     'Connection': 'close',
     'Pragma': 'no-cache',
-    'Upgrade-Insecure-Requests': '1',
-    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:154.0) Gecko/20100101 Firefox/154.0'
+    'Upgrade-Insecure-Requests': '1'
 }
 
 
@@ -581,6 +580,7 @@ request_headers = {
 
 
 import requests
+from utilities.user_agent_utility import roll_the_user_agent_dice
 
 
 
@@ -590,6 +590,8 @@ import requests
 
 def fetch_manifest_url(url):
     try:
+        request_headers['Date'] = str(int(time.time()))
+        request_headers['User-Agent'] = roll_the_user_agent_dice()
         response = requests.get(url, headers=request_headers, timeout=5)
         if response.status_code == 200:
             return response
