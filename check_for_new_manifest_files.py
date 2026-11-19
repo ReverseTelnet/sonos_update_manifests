@@ -742,6 +742,7 @@ from utilities.write_and_save_utility import save_string_to_text_file
 
 
 def process_response_workflow(response, is_seed=False):
+    global url_to_headers
     global master_queue
     global all_responses
     filename = None
@@ -752,7 +753,10 @@ def process_response_workflow(response, is_seed=False):
     else:
         content_location = None
     response_log_text = f'\n\n# {response.url}\n\n{response.text}\n\n'
+    request_url = response.request.url
+    response_headers = tuple(natsorted(response.headers.items()))
     all_responses.append(response_log_text)
+    url_to_headers.add((request_url, response_headers))
     signature = parse_response_text_for_signature(response.text)
     if signature: # It's New, So Save It and Parse It.
         LOG.info('New Signature Found!')
@@ -835,6 +839,7 @@ already_visited = set()
 new_manifest_files = set()
 known_404_url_set = set(known_404_url_list)
 good_urls = set()
+url_to_headers = set()
 
 
 
