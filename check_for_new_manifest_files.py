@@ -805,6 +805,11 @@ from utilities.known_404_urls import known_404_url_list
 from utilities.common_utilities import sort_dictionary_by_key
 from utilities.write_and_save_utility import save_to_json_file
 from utilities.headless_utility import git_commit_headless_workflow
+from maintenance_utilities.update_known_404_urls import update_known_404_urls_workflow
+from maintenance_utilities.update_known_manifest_urls import update_known_manifest_urls_workflow
+from maintenance_utilities.update_known_macos_versions import update_known_macos_installers_workflow
+from maintenance_utilities.update_known_release_versions import update_known_release_versions_workflow
+from maintenance_utilities.update_known_windows_versions import update_known_windows_installers_workflow
 
 
 
@@ -918,6 +923,13 @@ if verbose_mode:
 
 
 if headless_mode:
+    update_known_404_urls_workflow(known_404_url_set)
+    update_known_manifest_urls_workflow(good_urls)
+    update_known_macos_installers_workflow()
+    update_known_release_versions_workflow()
+    update_known_windows_installers_workflow()
+    git_commit_headless_workflow(pwd_absolute_path, [headers_filename], headers_timestamp=headers_timestamp, response_headers=True)
+        #
     for item in all_responses:
         LOG.info(f'\n\n{item}\n\n')
         time.sleep(.3)
