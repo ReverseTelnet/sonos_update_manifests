@@ -516,3 +516,25 @@ def repr_format_a_dictionary(a_dict):
     return repr_formatted
 
 
+
+##############################################################################
+#                                                                            #
+#                      Sort Dictionary by Keys Function                      #
+#                                                                            #
+##############################################################################
+
+
+
+from natsort import natsorted
+
+
+
+#######################  Ensures Consistent Order  #######################
+
+
+
+def sort_dictionary_by_key(input_dictionary):
+    key_sorted = dict(natsorted(input_dictionary.items()))
+    return key_sorted
+
+
