@@ -498,3 +498,21 @@ def repr_format_a_list(a_list):
     return repr_formatted
 
 
+
+##############################################################################
+#                                                                            #
+#                     Repr Format a Dictionary Function                      #
+#                                                                            #
+##############################################################################
+
+
+
+#######################  Python Dictionaries are Prettier than JSON  #######################
+
+
+
+def repr_format_a_dictionary(a_dict):
+    repr_formatted = '{\n' + ',\n'.join(f'{four_spaces}{repr(key)}: {repr(value)}' for key, value in a_dict.items()) + '\n}'
+    return repr_formatted
+
+
