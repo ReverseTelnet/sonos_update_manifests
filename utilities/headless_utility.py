@@ -248,14 +248,17 @@ def compile_git_commit_amend_command(git_timestamp):
 
 
 
-def git_commit_headless_workflow(pwd_absolute_path, new_manifest_files):
+def git_commit_headless_workflow(pwd_absolute_path, new_manifest_files, headers_timestamp=None, response_headers=False):
     git_set_username_output, git_set_email_output = setup_local_git_username_and_email()
     for filename in new_manifest_files:
         input_command = f'git add {filename} -f'
         git_add_result = run_subprocess_p_open(input_command)
         output_validated, git_status_output = git_status_workflow(pwd_absolute_path, filename)
         if output_validated:
-            git_commit_message = compile_git_commit_message(filename)
+            if response_headers:
+                git_commit_message = compile_git_commit_headers_message(headers_timestamp)
+            elif not response_headers:
+                git_commit_message = compile_git_commit_message(filename)
             git_commit_command, git_commit_timestamp = compile_git_commit_command(git_commit_message)
             git_commit_result = run_subprocess_p_open(git_commit_command)
                     #
