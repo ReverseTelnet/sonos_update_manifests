@@ -117,9 +117,12 @@ from utilities.common_utilities import two_spaces
 
 
 
-def validate_git_status_output(git_status_output, pwd_absolute_path, filename):
+def validate_git_status_output(git_status_output, pwd_absolute_path, filename, method):
     relative_path = Path(filename).relative_to(pwd_absolute_path)
-    expected_result = f'A{two_spaces}{str(relative_path)}'
+    if method == 'ADD':
+        expected_result = f'A{two_spaces}{str(relative_path)}'
+    elif method == 'MODIFY':
+        expected_result = f'M{two_spaces}{str(relative_path)}'        
     output_split = git_status_output.split('\n')
     output_stripped = [s.strip() for s in output_split]
     output_cleaned = list(filter(None, output_stripped))
@@ -144,9 +147,9 @@ def validate_git_status_output(git_status_output, pwd_absolute_path, filename):
 
 
 
-def git_status_workflow(pwd_absolute_path, filename):
+def git_status_workflow(pwd_absolute_path, filename, method):
     git_status_output = run_git_status_porcelain_command()
-    output_validated = validate_git_status_output(git_status_output, pwd_absolute_path, filename)
+    output_validated = validate_git_status_output(git_status_output, pwd_absolute_path, filename, method)
     return output_validated, git_status_output
 
 
@@ -253,7 +256,7 @@ def git_commit_headless_workflow(pwd_absolute_path, new_manifest_files, headers_
     for filename in new_manifest_files:
         input_command = f'git add {filename} -f'
         git_add_result = run_subprocess_p_open(input_command)
-        output_validated, git_status_output = git_status_workflow(pwd_absolute_path, filename)
+        output_validated, git_status_output = git_status_workflow(pwd_absolute_path, filename, 'ADD')
         if output_validated:
             if response_headers:
                 git_commit_message = compile_git_commit_headers_message(headers_timestamp)
