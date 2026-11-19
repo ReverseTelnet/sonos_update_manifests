@@ -461,3 +461,22 @@ def convert_epoch_to_iso8601(epoch_timestamp):
     return iso_timestamp
 
 
+
+##############################################################################
+#                                                                            #
+#                         Carriage Return Constants                          #
+#                                                                            #
+##############################################################################
+
+
+
+#######################  Text is Prettier Than Back Slashes  #######################
+
+
+
+one_carriage_return = '\n'
+two_carriage_returns = '\n\n'
+three_carriage_returns = '\n\n\n'
+four_carriage_returns = '\n\n\n\n'
+
+
