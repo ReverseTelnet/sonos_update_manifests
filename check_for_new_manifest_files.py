@@ -178,6 +178,7 @@ LOG = instantiate_logger(derive_current_script_name())
 
 
 
+from os import makedirs
 from utilities.common_utilities import get_pwd_absolute_path
 
 
@@ -195,6 +196,16 @@ pwd_absolute_path = get_pwd_absolute_path()
 
 
 manifests_directory = f'{pwd_absolute_path}/manifest_files'
+response_headers_directory = f'{pwd_absolute_path}/manifest_response_headers'
+
+
+
+#######################  Directory Creation  #######################
+
+
+
+makedirs(manifests_directory, exist_ok=True)
+makedirs(response_headers_directory, exist_ok=True)
 
 
 
