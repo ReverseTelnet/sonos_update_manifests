@@ -802,6 +802,8 @@ from rich import print as rich_print
 from utilities.common_utilities import ascii_waves
 from utilities.common_utilities import is_today_sunday
 from utilities.known_404_urls import known_404_url_list
+from utilities.common_utilities import sort_dictionary_by_key
+from utilities.write_and_save_utility import save_to_json_file
 from utilities.headless_utility import git_commit_headless_workflow
 
 
@@ -885,6 +887,18 @@ while master_queue:
                 known_404_url_set.add(url)
         elif url in already_visited:
             print('Skipping URL, Already Visited\n\n')
+
+
+
+#######################  Manifest Response Headers Operations  #######################
+
+
+
+headers_timestamp = int(time.time())
+headers_filename = f'{response_headers_directory}/manifest_headers_{headers_timestamp}.json'
+url_to_headers_dict = sort_dictionary_by_key(dict(url_to_headers))
+sorted_url_to_headers_dict = {k: sort_dictionary_by_key(dict(v)) for k, v in url_to_headers_dict.items()}
+save_to_json_file(headers_filename, sorted_url_to_headers_dict)
 
 
 
