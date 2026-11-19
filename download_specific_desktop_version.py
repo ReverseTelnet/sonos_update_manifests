@@ -1,25 +1,25 @@
-# ------------------------------------------------------------------------------------------------------------------------------------
-#
-#   Download Specific Desktop Version (Sonos Desktop Software)
-#
-#       When you run this script, you will be presented with two choices.
-#           • Operating System (macOS or Windows)
-#           • Software Version
-#
-#       The Software Versions available depend on the selected Operating System.
-#       After Selecting the Software Version, the script will open a new tab in the default browser with the download URL.
-#
-#       For most browsers, this means the file will automatically begin downloading.
-#
-# ------------------------------------------------------------------------------------------------------------------------------------
+# ╭────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+# │                                                                                                                                    │
+# │     Download Specific Desktop Version (Sonos Desktop Software)                                                                     │
+# │                                                                                                                                    │
+# │         When you run this script, you will be presented with two choices.                                                          │
+# │             • Operating System (macOS or Windows)                                                                                  │
+# │             • Software Version                                                                                                     │
+# │                                                                                                                                    │
+# │         The Software Versions available depend on the selected Operating System.                                                   │
+# │         After Selecting the Software Version, the script will open a new tab in the default browser with the download URL.         │
+# │                                                                                                                                    │
+# │         For most browsers, this means the file will automatically begin downloading.                                               │
+# │                                                                                                                                    │
+# ╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 
 
 
-##############################################################################
-#                                                                            #
-#          Clear Screen, Bump to Top, And Drop Two Lines Functions           #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │          Clear Screen, Bump to Top, And Drop Two Lines Functions         │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -28,7 +28,7 @@ from utilities.common_utilities import get_clear_function_by_platform
 
 
 
-#######################  Bump Console Output to the Top  #######################
+#  ────────────────────  Bump Console Output to the Top  ────────────────────
 
 
 
@@ -38,11 +38,11 @@ PRINT_NEWLINES(2)
 
 
 
-##############################################################################
-#                                                                            #
-#                      Select Operating System Function                      #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                      Select Operating System Function                    │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -55,7 +55,7 @@ from utilities.common_utilities import new_line_string
 
 
 
-#######################  Operating System Value  #######################
+#  ────────────────────────  Operating System Value  ────────────────────────
 
 
 
@@ -70,11 +70,11 @@ def select_operating_system():
 
 
 
-##############################################################################
-#                                                                            #
-#                    Select Version to Download Function                     #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                    Select Version to Download Function                   │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -82,7 +82,7 @@ from natsort import natsorted
 
 
 
-#######################  Download Version Value  #######################
+#  ────────────────────────  Download Version Value  ────────────────────────
 
 
 
@@ -99,11 +99,11 @@ def select_version_and_get_download_url():
 
 
 
-##############################################################################
-#                                                                            #
-#                          Putting It All Together                           #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                          Putting It All Together                         │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -114,7 +114,7 @@ from utilities.desktop_versions_utility import construct_os_installer_dictionari
 
 
 
-#######################  if __name__ == '__main__'  #######################
+#  ───────────────────────  if __name__ == '__main__'  ───────────────────────
 
 
 
