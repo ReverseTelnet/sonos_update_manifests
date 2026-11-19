@@ -51,7 +51,7 @@ Function Notes:
 def save_list_to_text_file(filename, a_variable, write_mode='w', opener=None):
     with open(filename, write_mode, encoding='utf-8', opener=opener) as f:
         for line in a_variable:
-            f.write(f'{line}')
+            f.write(f'{line}\n')
 
 
 
