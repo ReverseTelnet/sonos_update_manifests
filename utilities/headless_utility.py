@@ -173,6 +173,24 @@ def compile_git_commit_message(filename):
 
 ##############################################################################
 #                                                                            #
+#                Compile Git Commit Headers Message Function                 #
+#                                                                            #
+##############################################################################
+
+
+
+#######################  Git Commit Message | Headers File  #######################
+
+
+
+def compile_git_commit_headers_message(headers_timestamp):
+    git_commit_message = f'Check-In Commit | Manifest URLs Response Headers | {headers_timestamp}'
+    return git_commit_message
+
+
+
+##############################################################################
+#                                                                            #
 #                    Compile Git Commit Command Function                     #
 #                                                                            #
 ##############################################################################
