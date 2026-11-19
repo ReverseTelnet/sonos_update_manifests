@@ -1,31 +1,22 @@
-# ------------------------------------------------------------------------------------------------------------------------------------
-#
-#   Known Sonos Manifest Release Versions
-#
-#       This is a list of known Sonos Manifest Release Versions as of October 2026.
-#
-#       This Utility has two purposes:
-#
-#           1. To ensure links are populate in search engine results
-#              when searching for Sonos Manifest Files, Sonos Release versions, and Sonos Software and Firmware versions.
-#
-#              The hope is to make things easier for the next engineer or user who needs these files.
-#
-#           2. To provide a quick reference Manifest File Release Versions.
-#
-#              A Python List is arguably easier to read then XML.
-#
-#
-#       This list was made by the following code:
-#
-#           >>> from pathlib import Path
-#           >>> from natsort import natsorted, ns
-#           >>> manifest_directory = 'manifest_files'
-#           >>> manifest_files = [item for item in Path(manifests_directory).rglob('*') if item.suffix in ('.upm', '.xml')]
-#           >>> release_versions = [file.name.split('__')[0].strip() for file in manifest_files]
-#           >>> known_manifest_release_versions = natsorted(release_versions, alg=ns.IGNORECASE)
-#
-# ------------------------------------------------------------------------------------------------------------------------------------
+# ╭────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+# │                                                                                                                                    │
+# │     Known Sonos Manifest Release Versions                                                                                          │
+# │                                                                                                                                    │
+# │         This is a list of known Sonos Manifest Release Versions as of the latest headless run of                                   │
+# │         the `check_for_new_manifest_file` script.                                                                                  │
+# │                                                                                                                                    │
+# │         This Utility has two purposes:                                                                                             │
+# │                                                                                                                                    │
+# │             1. To ensure links are populate in search engine results                                                               │
+# │                when searching for Sonos Manifest Files, Sonos Release versions, and Sonos Software and Firmware versions.          │
+# │                                                                                                                                    │
+# │                The hope is to make things easier for the next engineer or user who needs these files.                              │
+# │                                                                                                                                    │
+# │             2. To provide a quick reference Manifest File Release Versions.                                                        │
+# │                                                                                                                                    │
+# │                A Python List is arguably easier to read then XML.                                                                  │
+# │                                                                                                                                    │
+# ╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 
 
 
