@@ -538,3 +538,24 @@ def sort_dictionary_by_key(input_dictionary):
     return key_sorted
 
 
+
+##############################################################################
+#                                                                            #
+#                          Is Today Sunday Function                          #
+#                                                                            #
+##############################################################################
+
+
+
+#######################  Function Name Says It All  #######################
+
+
+
+def is_today_sunday():
+    day_name = datetime.now(timezone.utc).strftime('%A')
+    if day_name == 'Sunday':
+        return True
+    else:
+        return False
+
+
