@@ -480,3 +480,21 @@ three_carriage_returns = '\n\n\n'
 four_carriage_returns = '\n\n\n\n'
 
 
+
+##############################################################################
+#                                                                            #
+#                        Repr Format a List Function                         #
+#                                                                            #
+##############################################################################
+
+
+
+#######################  Python List are Prettier than JSON  #######################
+
+
+
+def repr_format_a_list(a_list):
+    repr_formatted = '[\n' + ',\n'.join(f'{four_spaces}{repr(item)}' for item in a_list) + '\n]'
+    return repr_formatted
+
+
