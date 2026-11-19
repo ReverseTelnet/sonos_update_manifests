@@ -1,24 +1,24 @@
-# ------------------------------------------------------------------------------------------------------------------------------------
-#
-#   Known Sonos macOS Desktop Software Versions
-#
-#       This is a list of known macOS DMG Files as of October 2026.
-#
-#       This static list is not used by the `download_specific_desktop_version` script.
-#       That script reads the manifest files themselves.
-#
-#       This Utility has two purposes:
-#
-#           1. To ensure links are populate in search engine results
-#              when searching for Sonos Manifest Files and Sonos Windows Desktop software downloads.
-#
-#              The hope is to make things easier for the next engineer or user who needs these files.
-#
-#           2. To provide a quick reference to Versions and the DMG URL.
-#
-#              A Python Dictionary is arguably easier to read then XML.
-#
-# ------------------------------------------------------------------------------------------------------------------------------------
+# ╭────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+# │                                                                                                                                    │
+# │     Known Sonos macOS Desktop Software Versions                                                                                    │
+# │                                                                                                                                    │
+# │         This is a list of known macOS DMG Files as of the latest headless run of the `check_for_new_manifest_file` script.         │
+# │                                                                                                                                    │
+# │         This list is not used by the `download_specific_desktop_version` script.                                                   │
+# │         That script reads the Manifest Files themselves.                                                                           │
+# │                                                                                                                                    │
+# │         This Utility has two purposes:                                                                                             │
+# │                                                                                                                                    │
+# │             1. To ensure links are populate in search engine results                                                               │
+# │                when searching for Sonos Manifest Files and Sonos Windows Desktop software downloads.                               │
+# │                                                                                                                                    │
+# │                The hope is to make things easier for the next engineer or user who needs these files.                              │
+# │                                                                                                                                    │
+# │             2. To provide a quick reference to Versions and the DMG URL.                                                           │
+# │                                                                                                                                    │
+# │                A Python Dictionary is arguably easier to read then XML.                                                            │
+# │                                                                                                                                    │
+# ╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 
 
 
