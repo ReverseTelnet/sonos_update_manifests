@@ -1,28 +1,27 @@
-# ------------------------------------------------------------------------------------------------------------------------------------
-#
-#   Logging Utility
-#
-#       This Utility creates a Custom Root Logger.
-#
-#       Console, Null, and File Handler are created.
-#           • Rich is used for the Console Handler.
-#           • Null Handlers are used to prevent propagation from other modules.
-#           • Both a File Handler and a TimedRotatingFileHandler are created.
-#
-#
-# ------------------------------------------------------------------------------------------------------------------------------------
+# ╭────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+# │                                                                                                                                    │
+# │     Logging Utility                                                                                                                │
+# │                                                                                                                                    │
+# │         This Utility creates a Custom Root Logger.                                                                                 │
+# │                                                                                                                                    │
+# │         Console, Null, and File Handler are created.                                                                               │
+# │             • Rich is used for the Console Handler.                                                                                │
+# │             • Null Handlers are used to prevent propagation from other modules.                                                    │
+# │             • Both a File Handler and a TimedRotatingFileHandler are created.                                                      │
+# │                                                                                                                                    │
+# ╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 
 
 
-##############################################################################
-#                                                                            #
-#                Absolute Path Imports - Enablement Function                 #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                Absolute Path Imports - Enablement Function               │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
-#######################  Enables Absolute Path Imports  #######################
+#  ─────────────────────  Enables Absolute Path Imports  ─────────────────────
 
 
 
@@ -41,11 +40,11 @@ enable_absolute_imports()
 
 
 
-##############################################################################
-#                                                                            #
-#                          Date and Time Constants                           #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                          Date and Time Constants                         │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -54,7 +53,7 @@ from datetime import timezone
 
 
 
-#######################  Date and Time  #######################
+#  ─────────────────────────────  Date and Time  ─────────────────────────────
 
 
 
@@ -64,7 +63,7 @@ utc_iso_format = utc_now.strftime('%Y_%m_%d_%H_%M_%S')      # Example: 2026_03_2
 
 
 
-#######################  Log Date Folder  #######################
+#  ────────────────────────────  Log Date Folder  ────────────────────────────
 
 
 
@@ -72,11 +71,11 @@ log_date_folder = now.strftime('%Y-%m-%d')                  # Example: 2026-03-2
 
 
 
-##############################################################################
-#                                                                            #
-#                    Logging Directory Creation Function                     #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                    Logging Directory Creation Function                   │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -84,7 +83,7 @@ from os import makedirs
 
 
 
-#######################  Terminal Log Directory Creation  #######################
+#  ────────────────────  Terminal Log Directory Creation  ────────────────────
 
 
 
@@ -93,19 +92,19 @@ def create_terminal_log_directory(terminal_log_directory):
 
 
 
-#########################################################################################################################################################
-#                                                                                                                                                       #
-#                                                    Terminal Console Logger and Terminal File Logger                                                   #
-#                                                                                                                                                       #
-#########################################################################################################################################################
+# ╭────≈──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+# │                                                                                                                                                   │
+# │                                                  Terminal Console Logger and Terminal File Logger                                                 │
+# │                                                                                                                                                   │
+# ╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 
 
 
-##############################################################################
-#                                                                            #
-#                        Custom Root Logger Function                         #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                        Custom Root Logger Function                       │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -118,7 +117,7 @@ from logging.handlers import TimedRotatingFileHandler
 
 
 
-#######################  Custom Root Logger  #######################
+#  ──────────────────────────  Custom Root Logger  ──────────────────────────
 
 
 
@@ -141,8 +140,7 @@ def instantiate_logger(current_script):
 
 
 
-    ###############  Terminal Log Folder and Filename  ###############
-
+    #  ─────────────  Terminal Log Folder and Filename  ─────────────
 
 
     terminal_log_directory = f'{pwd_absolute_path}/logs/{log_date_folder}/{current_script}'
@@ -151,7 +149,7 @@ def instantiate_logger(current_script):
 
 
 
-    ###############  Rotating Terminal Log Folder and Filename  ###############
+    #  ─────────  Rotating Terminal Log Folder and Filename  ─────────
 
 
 
@@ -161,8 +159,7 @@ def instantiate_logger(current_script):
 
 
 
-    ###############  Date Formats  ###############
-
+    #  ───────────────────────  Date Formats  ───────────────────────
 
 
     console_log_date_format = '%Y-%m-%d %H:%M:%S'       # Example: '2026-03-29 04:42:21'
@@ -171,8 +168,7 @@ def instantiate_logger(current_script):
 
 
 
-    ###############  Logger Base Configuration  ###############
-
+    #  ─────────────────  Logger Base Configuration  ─────────────────
 
 
     LOG = logging.getLogger(__name__)
@@ -181,8 +177,7 @@ def instantiate_logger(current_script):
 
 
 
-    ###############  Console Handler Configuration  ###############
-
+    #  ───────────────  Console Handler Configuration  ───────────────
 
 
     console_handler = RichHandler(show_time=False, locals_max_string=119)
@@ -194,7 +189,7 @@ def instantiate_logger(current_script):
 
 
 
-    ###############  File Handler Configuration  ###############
+    #  ────────────────  File Handler Configuration  ────────────────
 
 
 
@@ -208,7 +203,7 @@ def instantiate_logger(current_script):
 
 
 
-    ###############  Time Rotating Logger Configuration  ###############
+    #  ────────────  Time Rotating Logger Configuration  ────────────
 
 
 
@@ -222,7 +217,7 @@ def instantiate_logger(current_script):
 
 
 
-    ###############  Null Handler Configuration  ###############
+    #  ────────────────  Null Handler Configuration  ────────────────
 
 
 

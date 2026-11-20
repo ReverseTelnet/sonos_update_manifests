@@ -1,55 +1,58 @@
-# ------------------------------------------------------------------------------------------------------------------------------------
-#
-#   Check For New Manifest Files
-#
-#       This script is used to download new manifest files.
-#       Because every unique manifest file must have a unique Signature,
-#       that Signature can be used to determine if the file already exists
-#       in the local directory.
-#
-#
-#       Master Queue Building Logic:
-#           1. Get Manifest Files from Manifest Directory
-#           2. Create a Dictionary of Signatures and Filenames
-#           3. Parse Each Manifest File for URLs
-#           4. Add URLs to a Master Queue
-#           5. Swap 'Dev' and 'Prod' words in URLs
-#           6  Add Swapped URLs to the Queue
-#           7. Add Seed URLS to Master Queue
-#
-#
-#       Queue Processing Logic:
-#           1. Use Requests To Download The Manifest File
-#           2. Check the Response Location Headers for Seed URLs
-#           3. Add Location to Master Queue
-#           4. Parse the Manifest File for the Signature
-#           5. If the Signature is New:
-#           6. Processes Manifest File for URLs
-#           7. Add URLs to Master Queue
-#           8. Save Manifest File
-#           9. Log all the Processed Manifest (Yes, save a second time) (Verbose Mode)
-#
-#
-#       Filename Logic:
-#           Many times, Sonos will release a manifest file to a specific URL,
-#           then make modifications to that manifest file.  Many times this is
-#           because of some mistake (or change) needed in in a link.
-#
-#           Rather than keep "latest", this script keeps everything.
-#           You never know what might accidentally find.
-#
-#           This "manifest file patching" results in the same release version
-#           having multiple manifest files, though at access time, a device
-#           updating would only get "latest".  The script needs to differentiate
-#           between these iterations somehow, as the release version is not unique.
-#
-#           To that end, the first sixteen characters of manifest file's Signature
-#           are appended to the release version separated by a double underscore.
-#
-#           A double underscore is used because of releases such as `92.0-72090-v17.7-WVKe8SuGri-RC-2-SP_1`
-#           Clear a mistake in that it used an underscore instead of hyphen, but it was published this way.
-#
-# ------------------------------------------------------------------------------------------------------------------------------------
+# ╭────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+# │                                                                                                                                    │
+# │     Check For New Manifest Files                                                                                                   │
+# │                                                                                                                                    │
+# │         This script is used to download new manifest files.                                                                        │
+# │         Because every unique manifest file must have a unique Signature,                                                           │
+# │         that Signature can be used to determine if the file already exists                                                         │
+# │         in the local directory.                                                                                                    │
+# │                                                                                                                                    │
+# │                                                                                                                                    │
+# │         Master Queue Building Logic                                                                                                │
+# │         ~~~~~~~~~~~~~~~~~~~~~~~~~~~                                                                                                │
+# │             1. Get Manifest Files from Manifest Directory                                                                          │
+# │             2. Create a Dictionary of Signatures and Filenames                                                                     │
+# │             3. Parse Each Manifest File for URLs                                                                                   │
+# │             4. Add URLs to a Master Queue                                                                                          │
+# │             5. Swap 'Dev' and 'Prod' words in URLs                                                                                 │
+# │             6  Add Swapped URLs to the Queue                                                                                       │
+# │             7. Add Seed URLS to Master Queue                                                                                       │
+# │                                                                                                                                    │
+# │                                                                                                                                    │
+# │         Queue Processing Logic                                                                                                     │
+# │         ~~~~~~~~~~~~~~~~~~~~~~                                                                                                     │
+# │             1. Use Requests To Download The Manifest File                                                                          │
+# │             2. Check the Response Location Headers for Seed URLs                                                                   │
+# │             3. Add Location to Master Queue                                                                                        │
+# │             4. Parse the Manifest File for the Signature                                                                           │
+# │             5. If the Signature is New:                                                                                            │
+# │             6. Processes Manifest File for URLs                                                                                    │
+# │             7. Add URLs to Master Queue                                                                                            │
+# │             8. Save Manifest File                                                                                                  │
+# │             9. Log all the Processed Manifest (Yes, save a second time) (Verbose Mode)                                             │
+# │                                                                                                                                    │
+# │                                                                                                                                    │
+# │         Filename Logic                                                                                                             │
+# │         ~~~~~~~~~~~~~~                                                                                                             │
+# │             Many times, Sonos will release a manifest file to a specific URL,                                                      │
+# │             then make modifications to that manifest file.  Many times this is                                                     │
+# │             because of some mistake (or change) needed in in a link.                                                               │
+# │                                                                                                                                    │
+# │             Rather than keep "latest", this script keeps everything.                                                               │
+# │             You never know what might accidentally find.                                                                           │
+# │                                                                                                                                    │
+# │             This "manifest file patching" results in the same release version                                                      │
+# │             having multiple manifest files, though at access time, a device                                                        │
+# │             updating would only get "latest".  The script needs to differentiate                                                   │
+# │             between these iterations somehow, as the release version is not unique.                                                │
+# │                                                                                                                                    │
+# │             To that end, the first sixteen characters of manifest file's Signature                                                 │
+# │             are appended to the release version separated by a double underscore.                                                  │
+# │                                                                                                                                    │
+# │             A double underscore is used because of releases such as `92.0-72090-v17.7-WVKe8SuGri-RC-2-SP_1`                        │
+# │             Clearly a mistake in that it used an underscore instead of hyphen, but it was published this way.                      │
+# │                                                                                                                                    │
+# ╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -85,11 +88,11 @@ Script Usage:
 
 
 
-##############################################################################
-#                                                                            #
-#                    Derive Current Script Name Function                     #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                    Derive Current Script Name Function                   │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -97,7 +100,7 @@ from os import path
 
 
 
-#######################  What is the Name of the Current Running Script?  #######################
+#  ────────────  What is the Name of the Current Running Script?  ────────────
 
 
 
@@ -111,19 +114,19 @@ def derive_current_script_name():
 
 
 
-#########################################################################################################################################################
-#                                                                                                                                                       #
-#                                                    Helping Relieve Sore Necks One Script at a Time                                                    #
-#                                                                                                                                                       #
-#########################################################################################################################################################
+# ╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+# │                                                                                                                                                 │
+# │                                                 Helping Relieve Sore Necks One Script at a Time                                                 │
+# │                                                                                                                                                 │
+# ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 
 
 
-##############################################################################
-#                                                                            #
-#          Clear Screen, Bump to Top, And Drop Two Lines Functions           #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │          Clear Screen, Bump to Top, And Drop Two Lines Functions         │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -132,7 +135,7 @@ from utilities.common_utilities import get_clear_function_by_platform
 
 
 
-#######################  Bump Console Output to the Top  #######################
+#  ────────────────────  Bump Console Output to the Top  ────────────────────
 
 
 
@@ -142,19 +145,19 @@ PRINT_NEWLINES(2)
 
 
 
-#######################################################################################################################################################
-#                                                                                                                                                     #
-#                                                             Functions Related to Logging                                                            #
-#                                                                                                                                                     #
-#######################################################################################################################################################
+# ╭───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+# │                                                                                                                                                   │
+# │                                                             Functions Related to Logging                                                          │
+# │                                                                                                                                                   │
+# ╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 
 
 
-##############################################################################
-#                                                                            #
-#                               Create Logger                                #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                               Create Logger                              │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -162,7 +165,7 @@ from utilities.logging_utility import instantiate_logger
 
 
 
-#######################  Always Log / Always Save  #######################
+#  ───────────────────────  Always Log / Always Save  ───────────────────────
 
 
 
@@ -170,19 +173,20 @@ LOG = instantiate_logger(derive_current_script_name())
 
 
 
-##############################################################################
-#                                                                            #
-#                            Directory Constants                             #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                            Directory Constants                           │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
+from os import makedirs
 from utilities.common_utilities import get_pwd_absolute_path
 
 
 
-#######################  Where Am I? Absolutely  #######################
+#  ────────────────────────  Where Am I? Absolutely  ────────────────────────
 
 
 
@@ -190,19 +194,29 @@ pwd_absolute_path = get_pwd_absolute_path()
 
 
 
-#######################  Simplifying Strings to Variables  #######################
+#  ───────────────────  Simplifying Strings to Variables  ───────────────────
 
 
 
 manifests_directory = f'{pwd_absolute_path}/manifest_files'
+response_headers_directory = f'{pwd_absolute_path}/manifest_response_headers'
 
 
 
-##############################################################################
-#                                                                            #
-#                           Is URL Valid Function                            #
-#                                                                            #
-##############################################################################
+#  ──────────────────────────  Directory Creation  ──────────────────────────
+
+
+
+makedirs(manifests_directory, exist_ok=True)
+makedirs(response_headers_directory, exist_ok=True)
+
+
+
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                           Is URL Valid Function                          │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -210,7 +224,7 @@ from urllib.parse import urlparse
 
 
 
-#######################  Ensure Parsed Value is a Valid URL  #######################
+#  ──────────────────  Ensure Parsed Value is a Valid URL  ──────────────────
 
 
 
@@ -224,11 +238,11 @@ def is_valid_url(url):
 
 
 
-##############################################################################
-#                                                                            #
-#                 Parse Manifest Text for Signature Function                 #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                 Parse Manifest Text for Signature Function               │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -236,7 +250,7 @@ import re
 
 
 
-#######################  Signature and Manifest Dictionary  #######################
+#  ───────────────────  Signature and Manifest Dictionary  ───────────────────
 
 
 
@@ -249,15 +263,15 @@ def parse_manifest_text_for_signature(manifest_text, filename):
 
 
 
-##############################################################################
-#                                                                            #
-#                 Parse Response Text for Signature Function                 #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                 Parse Response Text for Signature Function               │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
-#######################  Manifest Text --> In | Signature --> Out  #######################
+#  ───────────────  Manifest Text --> In | Signature --> Out  ───────────────
 
 
 
@@ -273,15 +287,15 @@ def parse_response_text_for_signature(manifest_text):
 
 
 
-##############################################################################
-#                                                                            #
-#                  Normalize Base Path to Base URL Function                  #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                  Normalize Base Path to Base URL Function                │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
-#######################  Base Path --> In | Base URL --> Out  #######################
+#  ──────────────────  Base Path --> In | Base URL --> Out  ──────────────────
 
 
 
@@ -295,11 +309,11 @@ def normalize_base_path_to_base_url(base_path):
 
 
 
-##############################################################################
-#                                                                            #
-#           Normalize Broken Base Path to Valid Base Path Function           #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │           Normalize Broken Base Path to Valid Base Path Function         │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -323,7 +337,7 @@ Development Notes:
 
 
 
-#######################  ^90.0-68190"--> In | 90.0-68190 --> Out  #######################
+#  ────────────────  ^90.0-68190"--> In | 90.0-68190 --> Out  ────────────────
 
 
 
@@ -333,11 +347,11 @@ def normalize_broken_base_path_to_valid_base_path(base_path):
 
 
 
-##############################################################################
-#                                                                            #
-#               Normalize Base Path to Master Version Function               #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │               Normalize Base Path to Master Version Function             │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -370,7 +384,7 @@ Development Reminder:
 
 
 
-#######################  Base Path --> In | Base URL --> Out  #######################
+#  ──────────────────  Base Path --> In | Base URL --> Out  ──────────────────
 
 
 
@@ -381,15 +395,15 @@ def normalize_base_path_to_master_version(base_path):
 
 
 
-##############################################################################
-#                                                                            #
-#                 Normalize Image Path to Image URL Function                 #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                 Normalize Image Path to Image URL Function               │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
-#######################  Used to Identify URL Split Location  #######################
+#  ──────────────────  Used to Identify URL Split Location  ──────────────────
 
 
 
@@ -397,7 +411,7 @@ include_these = ['.bin', '.dmg', '.exe', '.upd']
 
 
 
-#######################  Image Path --> In | Image URL --> Out  #######################
+#  ─────────────────  Image Path --> In | Image URL --> Out  ─────────────────
 
 
 
@@ -414,15 +428,15 @@ def normalize_image_path_to_url(image_path):
 
 
 
-##############################################################################
-#                                                                            #
-#                    Parse Image Links Workflow Function                     #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                    Parse Image Links Workflow Function                   │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
-#######################  Exclude URL If It Contains This Text  #######################
+#  ─────────────────  Exclude URL If It Contains This Text  ─────────────────
 
 
 
@@ -430,7 +444,7 @@ exclude_these = ['market://', '.html', 'appstore', 'testflight', 'Roundhouse', '
 
 
 
-#######################  Image URL Parse and Normalize Workflow  #######################
+#  ────────────────  Image URL Parse and Normalize Workflow  ────────────────
 
 
 
@@ -447,11 +461,11 @@ def parse_image_links_workflow(soup):
 
 
 
-##############################################################################
-#                                                                            #
-#          Parse Manifest File Name for Manifest Hyperlink Function          #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │          Parse Manifest File Name for Manifest Hyperlink Function        │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -472,7 +486,7 @@ Development Notes:
 
 
 
-#######################  Manifest Filename --> In | Manifest Hyperlink --> Out  #######################
+#  ─────────  Manifest Filename --> In | Manifest Hyperlink --> Out  ─────────
 
 
 
@@ -488,11 +502,11 @@ def parse_manifest_file_name_for_manifest_hyperlink(file):
 
 
 
-##############################################################################
-#                                                                            #
-#                Parse Manifest Text for Hyperlinks Function                 #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                Parse Manifest Text for Hyperlinks Function               │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -500,7 +514,7 @@ from bs4 import BeautifulSoup
 
 
 
-#######################  Manifest Text --> In | Hyperlinks --> Out  #######################
+#  ───────────────  Manifest Text --> In | Hyperlinks --> Out  ───────────────
 
 
 
@@ -525,15 +539,15 @@ def parse_manifest_text_for_hyperlinks(manifest_text):
 
 
 
-##############################################################################
-#                                                                            #
-#                 Swap Prod and Dev Words - Helper Function                  #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                 Swap Prod and Dev Words - Helper Function                │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
-#######################  Prod ⤺⤻ Dev | The Switcheroo  #######################
+#  ─────────────────────  Prod ⤺⤻ Dev | The Switcheroo  ─────────────────────
 
 
 
@@ -548,15 +562,15 @@ def swap_prod_and_dev_words(text):
 
 
 
-##############################################################################
-#                                                                            #
-#                              Headers Constant                              #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                              Headers Constant                            │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
-#######################  A Constant, but Lower Case  #######################
+#  ──────────────────────  A Constant, but Lower Case  ──────────────────────
 
 
 
@@ -566,30 +580,32 @@ request_headers = {
     'Cache-Control': 'no-cache',
     'Connection': 'close',
     'Pragma': 'no-cache',
-    'Upgrade-Insecure-Requests': '1',
-    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:154.0) Gecko/20100101 Firefox/154.0'
+    'Upgrade-Insecure-Requests': '1'
 }
 
 
 
-##############################################################################
-#                                                                            #
-#                        Fetch Manifest URL Function                         #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                        Fetch Manifest URL Function                       │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
 import requests
+from utilities.user_agent_utility import roll_the_user_agent_dice
 
 
 
-#######################  URL --> In | Response --> Out  #######################
+#  ─────────────────────  URL --> In | Response --> Out  ─────────────────────
 
 
 
 def fetch_manifest_url(url):
     try:
+        request_headers['Date'] = str(int(time.time()))
+        request_headers['User-Agent'] = roll_the_user_agent_dice()
         response = requests.get(url, headers=request_headers, timeout=5)
         if response.status_code == 200:
             return response
@@ -599,11 +615,11 @@ def fetch_manifest_url(url):
 
 
 
-##############################################################################
-#                                                                            #
-#                             Seed URL Constants                             #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                             Seed URL Constants                           │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -618,7 +634,7 @@ Development Notes:
 
 
 
-#######################  Gen 1 and Gen 2 Master Links  #######################
+#  ─────────────────────  Gen 1 and Gen 2 Master Links  ─────────────────────
 
 
 
@@ -636,11 +652,11 @@ SEED_URLS = [
 
 
 
-##############################################################################
-#                                                                            #
-#        Parse Saved Manifest Files for Hyperlinks Workflow Function         #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │        Parse Saved Manifest Files for Hyperlinks Workflow Function       │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -650,7 +666,7 @@ from utilities.common_utilities import open_text_file
 
 
 
-#######################  Manifest Files --> In | Parsed Hyperlinks --> Out  #######################
+#  ───────────  Manifest Files --> In | Parsed Hyperlinks --> Out  ───────────
 
 
 
@@ -670,11 +686,11 @@ def parse_saved_manifests_for_hyperlinks_workflow(manifests_sorted):
 
 
 
-##############################################################################
-#                                                                            #
-#                    Construct Manifest Filename Function                    #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                    Construct Manifest Filename Function                  │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -682,7 +698,7 @@ import time
 
 
 
-#######################  Signature and Base Path --> In | Manifest Filename --> Out  #######################
+#  ──────  Signature and Base Path --> In | Manifest Filename --> Out  ──────
 
 
 
@@ -699,11 +715,11 @@ def construct_manifest_filename(signature, base_path):
 
 
 
-##############################################################################
-#                                                                            #
-#                 Process Request Response Workflow Function                 #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                 Process Request Response Workflow Function               │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -735,11 +751,12 @@ from utilities.write_and_save_utility import save_string_to_text_file
 
 
 
-#######################  Parse Signature and Links | Add to Master Queue  #######################
+#  ────────────  Parse Signature and Links | Add to Master Queue  ────────────
 
 
 
 def process_response_workflow(response, is_seed=False):
+    global url_to_headers
     global master_queue
     global all_responses
     filename = None
@@ -750,7 +767,10 @@ def process_response_workflow(response, is_seed=False):
     else:
         content_location = None
     response_log_text = f'\n\n# {response.url}\n\n{response.text}\n\n'
+    request_url = response.request.url
+    response_headers = tuple(natsorted(response.headers.items()))
     all_responses.append(response_log_text)
+    url_to_headers.add((request_url, response_headers))
     signature = parse_response_text_for_signature(response.text)
     if signature: # It's New, So Save It and Parse It.
         LOG.info('New Signature Found!')
@@ -770,11 +790,11 @@ def process_response_workflow(response, is_seed=False):
 
 
 
-##############################################################################
-#                                                                            #
-#                          Putting It All Together                           #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                          Putting It All Together                         │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -783,12 +803,20 @@ import time
 from pathlib import Path
 from rich import print as rich_print
 from utilities.common_utilities import ascii_waves
+from utilities.common_utilities import is_today_sunday
 from utilities.known_404_urls import known_404_url_list
+from utilities.common_utilities import sort_dictionary_by_key
+from utilities.write_and_save_utility import save_to_json_file
 from utilities.headless_utility import git_commit_headless_workflow
+from maintenance_utilities.update_known_404_urls import update_known_404_urls_workflow
+from maintenance_utilities.update_known_manifest_urls import update_known_manifest_urls_workflow
+from maintenance_utilities.update_known_macos_versions import update_known_macos_installers_workflow
+from maintenance_utilities.update_known_release_versions import update_known_release_versions_workflow
+from maintenance_utilities.update_known_windows_versions import update_known_windows_installers_workflow
 
 
 
-#######################  Headless Mode  #######################
+#  ─────────────────────────────  Headless Mode  ─────────────────────────────
 
 
 
@@ -797,7 +825,7 @@ verbose_mode  = True if len(sys.argv) > 1 and sys.argv[1] == 'verbose'  else Fal
 
 
 
-#######################  Manifest Files Workflow  #######################
+#  ────────────────────────  Manifest Files Workflow  ────────────────────────
 
 
 
@@ -806,7 +834,7 @@ manifests_sorted = natsorted(manifest_files, alg=ns.IGNORECASE)
 
 
 
-#######################  Signatures, Filenames, and Parsed Hyperlinks Workflow  #######################
+#  ─────────  Signatures, Filenames, and Parsed Hyperlinks Workflow  ─────────
 
 
 
@@ -816,7 +844,7 @@ parsed_hyperlinks = parse_saved_manifests_for_hyperlinks_workflow(manifests_sort
 
 
 
-#######################  Build Queue Workflow  #######################
+#  ─────────────────────────  Build Queue Workflow  ─────────────────────────
 
 
 
@@ -824,19 +852,20 @@ master_queue = SEED_URLS + parsed_hyperlinks
 
 
 
-#######################  Objects Instantiation  #######################
+#  ─────────────────────────  Objects Instantiation  ─────────────────────────
 
 
 
 all_responses = []
 already_visited = set()
 new_manifest_files = set()
-known_404_url_set = set(known_404_url_list)
+known_404_url_set = set() if is_today_sunday() else set(known_404_url_list)
 good_urls = set()
+url_to_headers = set()
 
 
 
-#######################  if __name__ == '__main__':  #######################
+#  ──────────────────────  if __name__ == '__main__':  ──────────────────────
 
 
 
@@ -869,7 +898,19 @@ while master_queue:
 
 
 
-#######################  Verbose Mode Operations  #######################
+#  ─────────────────  Manifest Response Headers Operations  ─────────────────
+
+
+
+headers_timestamp = int(time.time())
+headers_filename = f'{response_headers_directory}/manifest_headers_{headers_timestamp}.json'
+url_to_headers_dict = sort_dictionary_by_key(dict(url_to_headers))
+sorted_url_to_headers_dict = {k: sort_dictionary_by_key(dict(v)) for k, v in url_to_headers_dict.items()}
+save_to_json_file(headers_filename, sorted_url_to_headers_dict)
+
+
+
+#  ────────────────────────  Verbose Mode Operations  ────────────────────────
 
 
 
@@ -880,11 +921,18 @@ if verbose_mode:
 
 
 
-#######################  Headless Mode | Github Workflow  #######################
+#  ────────────────────  Headless Mode | Github Workflow  ────────────────────
 
 
 
 if headless_mode:
+    update_known_404_urls_workflow(known_404_url_set)
+    update_known_manifest_urls_workflow(good_urls)
+    update_known_macos_installers_workflow()
+    update_known_release_versions_workflow()
+    update_known_windows_installers_workflow()
+    git_commit_headless_workflow(pwd_absolute_path, [headers_filename], headers_timestamp=headers_timestamp, response_headers=True)
+        #
     for item in all_responses:
         LOG.info(f'\n\n{item}\n\n')
         time.sleep(.3)

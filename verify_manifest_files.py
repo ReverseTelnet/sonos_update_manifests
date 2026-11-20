@@ -1,21 +1,21 @@
-# ------------------------------------------------------------------------------------------------------------------------------------
-#
-#   Verify Manifest Files
-#
-#       This script is used to validate one or more manifest files.
-#
-#       The Manifest File Validation Public Key Files must be present in the
-#       directory `manifest_public_keys`.  They must be valid, in that their
-#       MD5 hash matches the known-good value reference MD5 hash.
-#
-#       Missing one or more Public Key?
-#           See: `extract_manifest_validator_public_keys.py`
-#
-#       This script uses `sys.argv` to determine which file or directory to
-#       validate. If not argument is supplied, the script validates the
-#       Manifest Files in the `manifest_files` directory.
-#
-# ------------------------------------------------------------------------------------------------------------------------------------
+# ╭────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+# │                                                                                                                                    │
+# │     Verify Manifest Files                                                                                                          │
+# │                                                                                                                                    │
+# │         This script is used to validate one or more manifest files.                                                                │
+# │                                                                                                                                    │
+# │         The Manifest File Validation Public Key Files must be present in the                                                       │
+# │         directory `manifest_public_keys`.  They must be valid, in that their                                                       │
+# │         MD5 hash matches the known-good value reference MD5 hash.                                                                  │
+# │                                                                                                                                    │
+# │         Missing one or more Public Key?                                                                                            │
+# │             See: `extract_manifest_validator_public_keys.py`                                                                       │
+# │                                                                                                                                    │
+# │         This script uses `sys.argv` to determine which file or directory to                                                        │
+# │         validate. If not argument is supplied, the script validates the                                                            │
+# │         Manifest Files in the `manifest_files` directory.                                                                          │
+# │                                                                                                                                    │
+# ╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -37,11 +37,11 @@ Script Usage:
 
 
 
-##############################################################################
-#                                                                            #
-#          Clear Screen, Bump to Top, And Drop Two Lines Functions           #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │          Clear Screen, Bump to Top, And Drop Two Lines Functions         │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -50,7 +50,7 @@ from utilities.common_utilities import get_clear_function_by_platform
 
 
 
-#######################  Bump Console Output to the Top  #######################
+#  ────────────────────  Bump Console Output to the Top  ────────────────────
 
 
 
@@ -60,11 +60,11 @@ PRINT_NEWLINES(2)
 
 
 
-##############################################################################
-#                                                                            #
-#                        Validator-Related Constants                         #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                        Validator-Related Constants                       │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -72,7 +72,7 @@ from utilities.common_utilities import get_pwd_absolute_path
 
 
 
-#######################  HERE - (Absolutely) Here  #######################
+#  ───────────────────────  HERE - (Absolutely) Here  ───────────────────────
 
 
 
@@ -80,7 +80,7 @@ pwd_absolute_path = get_pwd_absolute_path()
 
 
 
-#######################  Manifest Keys Directory  #######################
+#  ────────────────────────  Manifest Keys Directory  ────────────────────────
 
 
 
@@ -88,7 +88,7 @@ public_keys_directory = f'{pwd_absolute_path}/manifest_public_keys'
 
 
 
-#######################  MD5 Reference Hashes  #######################
+#  ─────────────────────────  MD5 Reference Hashes  ─────────────────────────
 
 
 
@@ -98,7 +98,7 @@ reference_md5_hash_0096 = '13a0e91343acceb103898a3a3dde1ca5'
 
 
 
-#######################  Output Filenames  #######################
+#  ───────────────────────────  Output Filenames  ───────────────────────────
 
 
 
@@ -108,11 +108,11 @@ filename_0203 = f'{public_keys_directory}/ZZ0203.der'
 
 
 
-##############################################################################
-#                                                                            #
-#                   Create Public Key Dictionary Function                    #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                   Create Public Key Dictionary Function                  │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -120,7 +120,7 @@ from Crypto.PublicKey import RSA
 
 
 
-#######################  Public Keys --> In | {filename: RSA} --> Out  #######################
+#  ─────────────  Public Keys --> In | {filename: RSA} --> Out  ─────────────
 
 
 
@@ -134,11 +134,11 @@ def create_public_keys_dictionary():
 
 
 
-##############################################################################
-#                                                                            #
-#                   Construct Manifest File List Function                    #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                   Construct Manifest File List Function                  │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -146,7 +146,7 @@ from pathlib import Path
 
 
 
-#######################  Input Object --> In | Manifest Files --> Out  #######################
+#  ─────────────  Input Object --> In | Manifest Files --> Out  ─────────────
 
 
 
@@ -159,11 +159,11 @@ def construct_manifest_file_list(input_object):
 
 
 
-##############################################################################
-#                                                                            #
-#                      Find Body and Signature Function                      #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                      Find Body and Signature Function                    │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -171,7 +171,7 @@ from rich import print as rich_print
 
 
 
-#######################  Finds Body, Signature | Handles Exceptions  #######################
+#  ──────────────  Finds Body, Signature | Handles Exceptions  ──────────────
 
 
 
@@ -199,12 +199,12 @@ def find_body_and_signature(file, contents):
 
 
 
-##############################################################################
-#                                                                            #
-#                        If Name Equals Main Function                        #
-#                                 ¯\_(ツ)_/¯                                 #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                        If Name Equals Main Function                      │
+# │                                 ¯\_(ツ)_/¯                               │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -214,7 +214,7 @@ from utilities.common_utilities import open_file_as_bytes
 
 
 
-#######################  ᕦ_(ツ)_ᕤ  #######################
+#  ────────────────────────────────  ᕦ_(ツ)_ᕤ  ────────────────────────────────
 
 
 
@@ -242,11 +242,11 @@ def if_name_equals_main(manifest_files):
 
 
 
-##############################################################################
-#                                                                            #
-#                          Putting It All Together                           #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                          Putting It All Together                         │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -258,7 +258,7 @@ from utilities.common_utilities import get_md5_hash_of_file
 
 
 
-#######################  File and Directory Check  #######################
+#  ───────────────────────  File and Directory Check  ───────────────────────
 
 
 
@@ -269,7 +269,7 @@ zz0203_exists = does_file_exist(filename_0203)
 
 
 
-#######################  Dump and Run - Part I  #######################
+#  ─────────────────────────  Dump and Run - Part I  ─────────────────────────
 
 
 
@@ -296,7 +296,7 @@ if not zz0203_exists:
 
 
 
-#######################  Hash Public Keys  #######################
+#  ───────────────────────────  Hash Public Keys  ───────────────────────────
 
 
 
@@ -306,7 +306,7 @@ md5_hash_zz0203 = get_md5_hash_of_file(filename_0203)
 
 
 
-#######################  Dump and Run - Part II  #######################
+#  ────────────────────────  Dump and Run - Part II  ────────────────────────
 
 
 
@@ -331,7 +331,7 @@ if md5_hash_zz0203 != reference_md5_hash_0203:
 
 
 
-#######################  Where Should I Look?  #######################
+#  ─────────────────────────  Where Should I Look?  ─────────────────────────
 
 
 
@@ -339,7 +339,7 @@ input_object = sys.argv[1] if len(sys.argv) > 1 else 'manifest_files'
 
 
 
-#######################  If You Build It -> They Will Check Their Manifests  #######################
+#  ──────────  If You Build It -> They Will Check Their Manifests  ──────────
 
 
 

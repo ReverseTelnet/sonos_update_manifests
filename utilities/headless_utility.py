@@ -1,23 +1,23 @@
-# ------------------------------------------------------------------------------------------------------------------------------------
-#
-#   Headless Utility
-#
-#       This Utility contains functions and methods to git commit new Manifest Files.
-#       These functions are intended for use by the Github Workflows process.
-#
-# ------------------------------------------------------------------------------------------------------------------------------------
+# ╭────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+# │                                                                                                                                    │
+# │     Headless Utility                                                                                                               │
+# │                                                                                                                                    │
+# │         This Utility contains functions and methods to git commit new Manifest Files.                                              │
+# │         These functions are intended for use by the Github Workflow process.                                                       │
+# │                                                                                                                                    │
+# ╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 
 
 
-##############################################################################
-#                                                                            #
-#                Absolute Path Imports - Enablement Function                 #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                Absolute Path Imports - Enablement Function               │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
-#######################  Enables Absolute Path Imports  #######################
+#  ─────────────────────  Enables Absolute Path Imports  ─────────────────────
 
 
 
@@ -36,11 +36,11 @@ enable_absolute_imports()
 
 
 
-##############################################################################
-#                                                                            #
-#                        Module Logging Instantiation                        #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                        Module Logging Instantiation                      │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -48,7 +48,7 @@ import logging
 
 
 
-#######################  Always Log / Always Save  #######################
+#  ───────────────────────  Always Log / Always Save  ───────────────────────
 
 
 
@@ -56,11 +56,11 @@ LOG = logging.getLogger('utilities.logging_utility')
 
 
 
-##############################################################################
-#                                                                            #
-#                Setup Local Git Username and Email Function                 #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                Setup Local Git Username and Email Function               │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -68,7 +68,7 @@ from utilities.subprocess_utility import run_subprocess_p_open
 
 
 
-#######################  Git Local | Username and Email  #######################
+#  ────────────────────  Git Local | Username and Email  ────────────────────
 
 
 
@@ -81,15 +81,15 @@ def setup_local_git_username_and_email():
 
 
 
-##############################################################################
-#                                                                            #
-#                 Run Git Status Porcelain Command Function                  #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                 Run Git Status Porcelain Command Function                │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
-#######################  Git Status | With Easier Parsing  #######################
+#  ───────────────────  Git Status | With Easier Parsing  ───────────────────
 
 
 
@@ -100,11 +100,11 @@ def run_git_status_porcelain_command():
 
 
 
-##############################################################################
-#                                                                            #
-#             Parse Git Status Output for File Renames Function              #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │             Parse Git Status Output for File Renames Function            │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -113,13 +113,16 @@ from utilities.common_utilities import two_spaces
 
 
 
-#######################  Porcelain-Style --> In | Plumbing-Style Conversion | Validation --> Out  #######################
+#  ──────  Porcelain-Style --> In | Plumbing-Style Conversion | Validation --> Out  ──────
 
 
 
-def validate_git_status_output(git_status_output, pwd_absolute_path, filename):
+def validate_git_status_output(git_status_output, pwd_absolute_path, filename, method):
     relative_path = Path(filename).relative_to(pwd_absolute_path)
-    expected_result = f'A{two_spaces}{str(relative_path)}'
+    if method == 'ADD':
+        expected_result = f'A{two_spaces}{str(relative_path)}'
+    elif method == 'MODIFY':
+        expected_result = f'M{two_spaces}{str(relative_path)}'        
     output_split = git_status_output.split('\n')
     output_stripped = [s.strip() for s in output_split]
     output_cleaned = list(filter(None, output_stripped))
@@ -132,34 +135,34 @@ def validate_git_status_output(git_status_output, pwd_absolute_path, filename):
 
 
 
-##############################################################################
-#                                                                            #
-#                        Git Status Workflow Function                        #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                        Git Status Workflow Function                      │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
-#######################  A Unique Solution to a Complex Problem  #######################
+#  ────────────────  A Unique Solution to a Complex Problem  ────────────────
 
 
 
-def git_status_workflow(pwd_absolute_path, filename):
+def git_status_workflow(pwd_absolute_path, filename, method):
     git_status_output = run_git_status_porcelain_command()
-    output_validated = validate_git_status_output(git_status_output, pwd_absolute_path, filename)
+    output_validated = validate_git_status_output(git_status_output, pwd_absolute_path, filename, method)
     return output_validated, git_status_output
 
 
 
-##############################################################################
-#                                                                            #
-#                    Compile Git Commit Message Function                     #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                    Compile Git Commit Message Function                   │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
-#######################  Git Commit Message  #######################
+#  ──────────────────────────  Git Commit Message  ──────────────────────────
 
 
 
@@ -171,11 +174,29 @@ def compile_git_commit_message(filename):
 
 
 
-##############################################################################
-#                                                                            #
-#                    Compile Git Commit Command Function                     #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                Compile Git Commit Headers Message Function               │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
+
+
+
+#  ───────────────────  Git Commit Message | Headers File  ───────────────────
+
+
+
+def compile_git_commit_headers_message(headers_timestamp):
+    git_commit_message = f'Check-In Commit | Manifest URLs Response Headers | {headers_timestamp}'
+    return git_commit_message
+
+
+
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                    Compile Git Commit Command Function                   │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
@@ -183,7 +204,7 @@ from utilities.common_utilities import get_utc_now_iso_8601_timestamp
 
 
 
-#######################  Git Commit Command  #######################
+#  ──────────────────────────  Git Commit Command  ──────────────────────────
 
 
 
@@ -196,15 +217,15 @@ def compile_git_commit_command(git_commit_message):
 
 
 
-##############################################################################
-#                                                                            #
-#                 Compile Git Commit Amend Command Function                  #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                 Compile Git Commit Amend Command Function                │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
-#######################  Git Author Amend Command  #######################
+#  ───────────────────────  Git Author Amend Command  ───────────────────────
 
 
 
@@ -218,26 +239,29 @@ def compile_git_commit_amend_command(git_timestamp):
 
 
 
-##############################################################################
-#                                                                            #
-#                   Git Commit Headless Workflow Function                    #
-#                                                                            #
-##############################################################################
+# ╭──────────────────────────────────────────────────────────────────────────╮
+# │                                                                          │
+# │                   Git Commit Headless Workflow Function                  │
+# │                                                                          │
+# ╰──────────────────────────────────────────────────────────────────────────╯
 
 
 
-#######################  Headless Mode | Putting It All Together  #######################
+#  ────────────────  Headless Mode | Putting It All Together  ────────────────
 
 
 
-def git_commit_headless_workflow(pwd_absolute_path, new_manifest_files):
+def git_commit_headless_workflow(pwd_absolute_path, new_manifest_files, headers_timestamp=None, response_headers=False):
     git_set_username_output, git_set_email_output = setup_local_git_username_and_email()
     for filename in new_manifest_files:
         input_command = f'git add {filename} -f'
         git_add_result = run_subprocess_p_open(input_command)
-        output_validated, git_status_output = git_status_workflow(pwd_absolute_path, filename)
+        output_validated, git_status_output = git_status_workflow(pwd_absolute_path, filename, 'ADD')
         if output_validated:
-            git_commit_message = compile_git_commit_message(filename)
+            if response_headers:
+                git_commit_message = compile_git_commit_headers_message(headers_timestamp)
+            elif not response_headers:
+                git_commit_message = compile_git_commit_message(filename)
             git_commit_command, git_commit_timestamp = compile_git_commit_command(git_commit_message)
             git_commit_result = run_subprocess_p_open(git_commit_command)
                     #
