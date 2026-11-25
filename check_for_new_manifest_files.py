@@ -739,6 +739,65 @@ def manifest_filename_workflow(request_url, content_location, signature, is_seed
 
 
 
+# ╭────────────────────────────────────────────────────────────────────────╮
+# │                                                                        │
+# │                   Check If Filename is New Function                    │
+# │                                                                        │
+# ╰────────────────────────────────────────────────────────────────────────╯
+
+
+
+'''
+Development Notes:
+
+    In previous iterations, the Manifest Filename was saved using the `base_path` element
+    of the Manifest File.  However, this lead to a discrepancy between the URLs present
+    in the Manifest File and the Repository's Manifest File List.
+
+    From a tooling standing point, `fd` and `rg` are used to quickly parse the repository
+    for existing files whenever potentially new Manifest URLs come to my attention.
+
+    Example:
+
+        >>> manifest_files/2026-Sonos-22-vd4jBpORK9-GA-1__b6dbea74e6c0ebba.upm
+        >>> manifest_files/86.11-82170-v27.3-CsuS1t5Ahk-RC-1__b6dbea74e6c0ebba.upm
+        >>> manifest_files/98.0-82170-v27.3-p6xYFYVxwZ-RC-1__b6dbea74e6c0ebba.upm
+
+    The three manifest files are identical in content (verified by the Signature).
+    However, their provenance is completely different.  The `2026-Sonos-22` file
+    was derived from the Seed URL. The `98.0-82170` file was in the `Content-Location`
+    in the response headers of the the Seed URL (and also the Base URL of the Manifest
+    File's content).  The `86.11-82170` file is due to the image URL references in the
+    Manifest File.
+
+    The change introduce through the following function is to save the file based on
+    the URL rather than the `base_path` element.
+'''
+
+
+
+#  ────────  Signature and Filename --> In | File Newness --> Out  ────────
+
+
+
+def check_if_filename_is_new(signature, filename):
+    relative_path_filename = Path(filename).relative_to(manifests_directory).name
+    if signature in signatures_and_filenames:
+        file_set = signatures_and_filenames.get(signature)
+        if relative_path_filename in file_set:
+            LOG.info(f'Signature Already Exists In: {relative_path_filename}\n\n')
+            is_new = False
+        elif filename not in file_set:
+            is_new = True
+    elif signature not in signatures_and_filenames:
+        LOG.info('New Signature Found in Second Pass')
+        signatures_and_filenames[signature] = set()
+        signatures_and_filenames[signature].add(relative_path_filename)
+        is_new = True
+    return is_new
+
+
+
 # ╭──────────────────────────────────────────────────────────────────────────╮
 # │                                                                          │
 # │                 Process Request Response Workflow Function               │
