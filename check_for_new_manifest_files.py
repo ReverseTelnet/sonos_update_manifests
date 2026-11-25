@@ -816,7 +816,7 @@ from maintenance_utilities.update_known_windows_versions import update_known_win
 
 
 
-#  ─────────────────────────────  Headless Mode  ─────────────────────────────
+#  ─────────────────────────────  Runtime Mode  ─────────────────────────────
 
 
 
