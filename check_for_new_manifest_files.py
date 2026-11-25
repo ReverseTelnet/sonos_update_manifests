@@ -257,9 +257,12 @@ import re
 def parse_manifest_text_for_signature(manifest_text, filename):
     global signatures_and_filenames
     signature = re.findall('!-- SIGNATURE:(.*) -->', manifest_text)[0]
-    if signature in signatures_and_filenames:
+    if signature not in signatures_and_filenames:
+        signatures_and_filenames[signature] = set()
+        signatures_and_filenames[signature].add(filename)
+    elif signature in signatures_and_filenames:
         LOG.info(f'Existing File With Same Signature: {filename}')
-    signatures_and_filenames[signature] = filename
+        signatures_and_filenames[signature].add(filename)
 
 
 
