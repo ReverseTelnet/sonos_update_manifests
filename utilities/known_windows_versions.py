@@ -69,7 +69,7 @@ known_windows_versions = {
     '90.0-67171': 'http://update-firmware.sonos.com/firmware/Prod/90.0-67171-v17.2-ZethjbGivZ-GA-1/90.0-67171-1-3.exe',
     '90.0-67300': 'http://update-firmware.sonos.com/firmware/Prod/90.0-67300-v17.2.1-Lp7WoQPkxr-RC-1/90.0-67300-1-3.exe',
     '90.0-68190': 'http://update-firmware.sonos.com/firmware/Prod/90.0-68190-v17.2.2-y0RcLefNNu-RC-1/90.0-68190-1-3.exe',
-    '90.0-75190': 'http://update-firmware.sonos.com/firmware/Prod/90.0-75190-v17.2.3-lDpGfsxQdy-RC-5/90.0-75190-1-3.exe',
+    '90.0-75190': 'http://update-firmware.sonos.com/firmware/Prod/90.0-75190-v17.2.3-lDpGfsxQdy-RC-4/90.0-75190-1-3.exe',
     '90.0-77070': 'http://update-firmware.sonos.com/firmware/Prod/90.0-77070-v17.2.3-rT0797IawE-RC-6/90.0-77070-1-3.exe'
 }
 
