@@ -145,6 +145,7 @@ known_manifest_urls = [
     'http://update-firmware.sonos.com/firmware/Prod/2026-Sonos-22-DlQxSDS4vj-GA-2/update.upm',
     'http://update-firmware.sonos.com/firmware/Prod/2026-Sonos-22-RhFftbkg3y-SP-1/update.upm',
     'http://update-firmware.sonos.com/firmware/Prod/2026-Sonos-22-vd4jBpORK9-GA-1/update.upm',
+    'http://update-firmware.sonos.com/firmware/Prod/Sonos-23-vNNWqcR4xJ-SP-1/update.upm',
     'http://update-stage.sonos.com/firmware/Prod/57.3-79200-v11.2.2-vjulqe-GA-1/update.upm',
     'http://update-stage.sonos.com/firmware/QAtest/70.1-12345-v12.0-SWGen1-FakeRelease1/update.upm',
     'http://update-stage.sonos.com/firmware/swgen/1/latest/update.upm?sonosid=Anonymous&householdid=nohhid&cmaj=25&cmin=0&cbld=34',
