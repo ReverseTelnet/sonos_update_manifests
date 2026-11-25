@@ -158,6 +158,8 @@ known_manifest_release_versions = [
     '98.0-82170-v27.3-p6xYFYVxwZ-RC-1',
     '98.0-82170-v27.3-p6xYFYVxwZ-RC-1',
     '98.0-82170-v27.3-p6xYFYVxwZ-RC-1',
+    '98.0-82170-v27.3-p6xYFYVxwZ-RC-1',
+    '98.0-83230-v27.3-vtUrWjiVM2-RC-3',
     '2024-Sonos-15-m69dr5s59T-GA-1',
     '2024-Sonos-18-ImHN1eseKR-GA-5',
     '2024-Sonos-21-L24oAM60S8-GA-2',
@@ -182,7 +184,8 @@ known_manifest_release_versions = [
     '2026-Sonos-22-DlQxSDS4vj-GA-2',
     '2026-Sonos-22-RhFftbkg3y-SP-1',
     '2026-Sonos-22-vd4jBpORK9-GA-1',
-    '2026-Sonos-22-vd4jBpORK9-GA-1'
+    '2026-Sonos-22-vd4jBpORK9-GA-1',
+    'Sonos-23-vNNWqcR4xJ-SP-1'
 ]
 
 
