@@ -864,7 +864,7 @@ def process_response_workflow(response, is_seed=False):
         for item in hyperlinks:
             master_queue.append(item)
             master_queue.append(swap_prod_and_dev_words(item))
-    return filename, response.text
+    return filename, is_new, response.text
 
 
 
@@ -972,10 +972,10 @@ while master_queue:
             if response:
                 good_urls.add(url)
                 if url in SEED_URLS:
-                    manifest_filename, response_text = process_response_workflow(response, is_seed=True)
+                    manifest_filename, is_new, response_text = process_response_workflow(response, is_seed=True)
                 else:
-                    manifest_filename, response_text = process_response_workflow(response)
-                if manifest_filename:
+                    manifest_filename, is_new, response_text = process_response_workflow(response)
+                if is_new:
                     new_manifest_files.add((manifest_filename, response_text))
             elif not response:
                 print('No Response from URL\n\n')
