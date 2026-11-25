@@ -822,6 +822,7 @@ from maintenance_utilities.update_known_windows_versions import update_known_win
 
 headless_mode = True if len(sys.argv) > 1 and sys.argv[1] == 'headless' else False
 verbose_mode  = True if len(sys.argv) > 1 and sys.argv[1] == 'verbose'  else False
+quiet_mode    = True if len(sys.argv) > 2 and sys.argv[2] == 'quiet'    else False
 
 
 
