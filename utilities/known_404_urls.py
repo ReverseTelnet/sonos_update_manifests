@@ -108,6 +108,7 @@ known_404_url_list = [
     'http://update-firmware.sonos.com/firmware/Dev/97.1-80312-v18.8-jZ0oXJNpeN-RC-6/update.upm',
     'http://update-firmware.sonos.com/firmware/Dev/97.2-81220-v27.1-eX9W4Ux6xI-RC-3/update.upm',
     'http://update-firmware.sonos.com/firmware/Dev/98.0-82170-v27.3-p6xYFYVxwZ-RC-1/update.upm',
+    'http://update-firmware.sonos.com/firmware/Dev/98.0-83230-v27.3-vtUrWjiVM2-RC-3/update.upm',
     'http://update-firmware.sonos.com/firmware/Dev/2024-Sonos-15-m69dr5s59T-GA-1/update.upm',
     'http://update-firmware.sonos.com/firmware/Dev/2024-Sonos-18-ImHN1eseKR-GA-5/update.upm',
     'http://update-firmware.sonos.com/firmware/Dev/2024-Sonos-21-L24oAM60S8-GA-2/update.upm',
