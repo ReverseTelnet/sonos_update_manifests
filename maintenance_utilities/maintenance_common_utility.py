@@ -57,7 +57,7 @@ def compile_utility_git_commit_message(pwd_absolute_path, baseline_utility):
     relative_path = Path(baseline_utility).relative_to(f'{pwd_absolute_path}/utilities')
     no_suffix = relative_path.with_suffix('')
     name_split = no_suffix.name.split('_')
-    conjoined = ' '.join([item.title() for item in name_split])
+    conjoined = ' '.join([item.title() for item in name_split]).replace('Macos', 'MacOS')
     git_commit_message = f'Updated {conjoined} | {int(time.time())} | {conjoined} Utility'
     return git_commit_message
 
