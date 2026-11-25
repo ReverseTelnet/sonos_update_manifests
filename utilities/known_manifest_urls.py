@@ -121,6 +121,7 @@ known_manifest_urls = [
     'http://update-firmware.sonos.com/firmware/Prod/97.1-80312-v18.8-jZ0oXJNpeN-RC-6/update.upm',
     'http://update-firmware.sonos.com/firmware/Prod/97.2-81220-v27.1-eX9W4Ux6xI-RC-3/update.upm',
     'http://update-firmware.sonos.com/firmware/Prod/98.0-82170-v27.3-p6xYFYVxwZ-RC-1/update.upm',
+    'http://update-firmware.sonos.com/firmware/Prod/98.0-83230-v27.3-vtUrWjiVM2-RC-3/update.upm',
     'http://update-firmware.sonos.com/firmware/Prod/2024-Sonos-15-m69dr5s59T-GA-1/update.upm',
     'http://update-firmware.sonos.com/firmware/Prod/2024-Sonos-18-ImHN1eseKR-GA-5/update.upm',
     'http://update-firmware.sonos.com/firmware/Prod/2024-Sonos-21-L24oAM60S8-GA-2/update.upm',
@@ -151,7 +152,7 @@ known_manifest_urls = [
     'http://update-test.sonos.com/firmware/swgen/2/latest/update.upm?sonosid=Anonymous&householdid=nohhid&cmaj=81&cmin=0&cbld=52',
     'http://update-test.sonos.com/releases/alpha/c6f38e9f884349afba786f630ead94ca/update.upm',
     'http://update.sonos.com/firmware/Prod/57.23-83121-v11.16.2-40G2W5Dpkq-GA-1/update.upm',
-    'http://update.sonos.com/firmware/Prod/2026-Sonos-22-RhFftbkg3y-SP-1/update.upm',
+    'http://update.sonos.com/firmware/Prod/Sonos-23-vNNWqcR4xJ-SP-1/update.upm',
     'http://update.sonos.com/firmware/swgen/1/latest/update.upm?sonosid=Anonymous&householdid=nohhid&cmaj=25&cmin=0&cbld=34',
     'http://update.sonos.com/firmware/swgen/2/latest/update.upm?sonosid=Anonymous&householdid=nohhid&cmaj=81&cmin=0&cbld=52'
 ]
