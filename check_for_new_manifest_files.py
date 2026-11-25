@@ -715,6 +715,30 @@ def construct_manifest_filename(signature, base_path):
 
 
 
+# ╭────────────────────────────────────────────────────────────────────────╮
+# │                                                                        │
+# │                  Manifest Filename Workflow Function                   │
+# │                                                                        │
+# ╰────────────────────────────────────────────────────────────────────────╯
+
+
+
+#  ─────────────  Manifest Filename | Putting It All Together  ─────────────
+
+
+
+def manifest_filename_workflow(request_url, content_location, signature, is_seed):
+    if not is_seed:
+        filename = construct_manifest_filename(signature, base_path=request_url)
+    elif is_seed:
+        if content_location:
+            filename = construct_manifest_filename(signature, base_path=content_location)
+        elif not content_location:
+            filename = construct_manifest_filename(signature, base_path=None)
+    return filename
+
+
+
 # ╭──────────────────────────────────────────────────────────────────────────╮
 # │                                                                          │
 # │                 Process Request Response Workflow Function               │
@@ -772,16 +796,10 @@ def process_response_workflow(response, is_seed=False):
     all_responses.append(response_log_text)
     url_to_headers.add((request_url, response_headers))
     signature = parse_response_text_for_signature(response.text)
+    filename = manifest_filename_workflow(request_url, content_location, signature, is_seed)
     if signature: # It's New, So Save It and Parse It.
         LOG.info('New Signature Found!')
         hyperlinks, base_path = parse_manifest_text_for_hyperlinks(response.text)
-        if not is_seed:
-            filename = construct_manifest_filename(signature, base_path)
-        elif is_seed:
-            if content_location:
-                filename = construct_manifest_filename(signature, base_path=content_location)
-            elif not content_location:
-                filename = construct_manifest_filename(signature, base_path=None)
         save_string_to_text_file(filename, response.text)
         for item in hyperlinks:
             master_queue.append(item)
