@@ -277,12 +277,9 @@ def parse_manifest_text_for_signature(manifest_text, filename):
 
 def parse_response_text_for_signature(manifest_text):
     signature = None
-    signature_matches = re.findall('!-- SIGNATURE:(.*) -->', manifest_text)[0]
-    if signature_matches in signatures_and_filenames:
-        known_file = signatures_and_filenames.get(signature_matches)
-        LOG.info(f'Signature Already Exists In: {known_file}\n\n')
-    else:
-        signature = signature_matches
+    signature_match = re.findall('!-- SIGNATURE:(.*) -->', manifest_text)
+    if signature_match:
+        signature = signature_match[0]
     return signature
 
 
