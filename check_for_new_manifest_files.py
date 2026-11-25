@@ -856,7 +856,8 @@ def process_response_workflow(response, is_seed=False):
     url_to_headers.add((request_url, response_headers))
     signature = parse_response_text_for_signature(response.text)
     filename = manifest_filename_workflow(request_url, content_location, signature, is_seed)
-    if signature: # It's New, So Save It and Parse It.
+    is_new = check_if_filename_is_new(signature, filename)
+    if is_new: # It's New, So Save It and Parse It.
         LOG.info('New Signature Found!')
         hyperlinks, base_path = parse_manifest_text_for_hyperlinks(response.text)
         save_string_to_text_file(filename, response.text)
