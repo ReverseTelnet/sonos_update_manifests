@@ -922,6 +922,17 @@ if verbose_mode:
 
 
 
+#  ──────────────────────  Non-Quiet Mode Operations  ──────────────────────
+
+
+
+if not quiet_mode:
+    for item in all_responses:
+        LOG.info(f'\n\n{item}\n\n')
+        time.sleep(.3)
+
+
+
 #  ────────────────────  Headless Mode | Github Workflow  ────────────────────
 
 
@@ -933,10 +944,6 @@ if headless_mode:
     update_known_release_versions_workflow()
     update_known_windows_installers_workflow()
     git_commit_headless_workflow(pwd_absolute_path, [headers_filename], headers_timestamp=headers_timestamp, response_headers=True)
-        #
-    for item in all_responses:
-        LOG.info(f'\n\n{item}\n\n')
-        time.sleep(.3)
     if new_manifest_files:
         new_manifest_filenames = [item[0] for item in new_manifest_files]
         git_commit_headless_workflow(pwd_absolute_path, new_manifest_filenames)
